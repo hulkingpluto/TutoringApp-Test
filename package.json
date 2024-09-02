@@ -1,6 +1,7 @@
 {
   "name": "tutoringwebapp",
   "version": "1.0.0",
+  "type": "module",
   "description": "The Smart Campus System aims to revolutionize university life by integrating various aspects of campus operations into a seamless, user-friendly platform. This system will enhance the experience of students, faculty, and staff by providing efficient, accessible, and interconnected services. Each component of the system will be managed by dedicated teams, ensuring specialized focus and comprehensive development.",
   "main": "index.js",
   "scripts": {
@@ -11,6 +12,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^10.0.0",
+    "mongoose": "^8.6.0"
   }
 }

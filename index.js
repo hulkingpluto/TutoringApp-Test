@@ -1,16 +1,58 @@
-// index.js
-
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import mongoose from 'mongoose';
+import path from 'path';
+import passport from 'passport';
+import session from 'express-session';
+import authRoutes from './Authentication/RouteA.js'; 
+import userRoutes from './Routes/User_Routes/UserR.js'; 
+import resourceRoutes from './Routes/Resource_Routes/ResourceR.js';
+import bookingRoutes from './Routes/Booking_Routes/BookingR.js';
+import notificationRoutes from './Routes/Notification_Routes/NotificationR.js';
+import virtualtutoringRoutes from './Routes/VirtualTutoring_Routes/VirtualTutoringR.js';
+import './Authentication/passport.js'; 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the 'css' and 'js' directories
+const mongoURI = 'mongodb://localhost:27017/Testdb';
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 50000 
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+
+app.use(express.json());
 app.use(express.static('css'));
 app.use(express.static('js'));
 
-// Serve the index.html file from the 'views' directory
+// Passport session setup
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your_session_secret',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use('/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/virtualtutoring', virtualtutoringRoutes);
+
+
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
