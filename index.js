@@ -12,7 +12,7 @@ import virtualtutoringRoutes from './Routes/VirtualTutoring_Routes/VirtualTutori
 import './Authentication/passport.js'; 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
 
 const mongoURI = 'mongodb://localhost:27017/Testdb';
 
@@ -57,7 +57,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
