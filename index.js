@@ -29,6 +29,8 @@ app.use(express.json());
 app.use(express.static('css'));
 app.use(express.static('js'));
 
+
+
 // Passport session setup
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your_session_secret',
