@@ -1,19 +1,22 @@
 document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevents the default form submission
 
+    // Get the form values
     const urlName = document.getElementById('urlName').value;
     const urlDescription = document.getElementById('urlDescription').value;
     const url = document.getElementById('url').value;
 
+    // Prepare the resource data
     const newResource = {
         title: urlName,
         description: urlDescription,
         fileUrl: url,
-        uploadedBy: 'USER_ID'  // Replace with the actual user ID
+        uploadedBy: '19' // Change this to dynamic user ID if needed
     };
 
+    // Send the data to the server
     try {
-        const response = await fetch('http://your-api-url-here/', {
+        const response = await fetch('https://localhost:3000/api/resources', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
