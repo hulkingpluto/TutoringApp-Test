@@ -13,7 +13,7 @@ document.querySelector('.upload-url-form').addEventListener('submit', async func
     };
 
     try {
-        const response = await fetch('http://your-api-url-here/', {
+        const response = await fetch('mongodb://localhost:27017/Testdb', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
