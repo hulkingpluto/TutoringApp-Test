@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Sharing Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar Section -->
+    <div id="sidebar" class="sidebar collapsed"> <!-- Sidebar collapsed by default -->
+        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
+        <ul>
+            <li><a href="dashboard.html"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
+            <li><a href="tutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
+            <li><a href="schedule.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
+            <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
+            <li><a href="reviews.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <img class="logo" src="./Icons/logo.svg" alt="Logo">
+        <input class="search" type="text" placeholder="Search">
+        <ul>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="Notifications"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="Chat"></a></li>
+        </ul>
+        <div class="dark-mode-toggle">
+            <label for="dark-mode-switch" class="switch">
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <ul class="account-link">
+            <a href="#"><img src="./Icons/Hamoudy.jpeg" alt="Hamoudy">Hamoudy</a>
+        </ul>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-content">
+        <h2 class="title-resources">Resource Sharing</h2>
+        <div class="resource-sharing-section">
+            <h2>Share Study Materials and Notes</h2>
+            <div class="resource-container">
+                <div class="resource-upload">
+                    <h3>Upload Resources</h3>
+                    <input type="file" id="upload" hidden />
+                    <form class="upload-url-form" action="">
+                        <label for="urlName">URL name:</label><br>
+                        <input type="text" id="urlName" ><br>
+                        <label for="urlDescription">URL Description:</label><br>
+                        <input type="text" id="urlDescription"><br>
+                        <label for="url">URL:</label><br>
+                        <input type="text" id="url"><br>
+                        <button>Submit URL</button>
+                    </form>
+                    <label for="upload" class="upload-btn">Upload File</label>
+                </div>
+                <div class="resource-list">
+                    <h3>Available Resources</h3>
+                    <ul>
+                        <li><a href="#">Math Notes - Algebra</a></li>
+                        <li><a href="#">Physics Lab Report</a></li>
+                        <li><a href="#">Chemistry Equations Cheat Sheet</a></li>
+                        <li><a href="#">History Summary</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="resource-sharing.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Sidebar with Dark Mode</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="./Icons/logo.svg" alt="">
+        <input class="search" type="text" placeholder="Search">
+        <ul>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
+        </ul>
+        <!-- Dark mode toggle switch -->
+        <div class="dark-mode-toggle">
+            <label for="dark-mode-switch" class="switch">
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <ul class="account-link">
+            <a href="#"><img src="./Icons/Hamoudy.jpeg" alt="">Hamoudy</a>
+        </ul>
+    </div>
+    <div id="sidebar" class="sidebar">
+        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt=""></button>
+        <ul>
+            <li><a href="#"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
+            <li><a href="./sessions.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
+            <li><a href="./resource-sharing.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
+            <li><a href="#"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
+            <li><a href="#"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h2 class="welcome">Welcome back Hamoudy</h2>
+        <div class="dashboard-sections">
+            <button class="section" onclick="location.href='#'">
+                <img src="./Icons/tutor-dashboard.svg" alt="">
+                <h2>Available Tutors</h2>
+                <p>Find and connect with tutors.</p>
+            </button>
+            <button class="section" onclick="location.href='#'">
+                <img src="./Icons/schedule-dashboard.svg" alt="">
+                <h2>Schedule Sessions</h2>
+                <p>View and manage your tutoring schedule.</p>
+            </button>
+            <button class="section" onclick="location.href='#'">
+                <img src="./Icons/resources-dashboard.svg" alt="">
+                <h2>Study Resources</h2>
+                <p>Access study materials and resources.</p>
+            </button>
+            <button class="section" onclick="location.href='#'">
+                <img src="./Icons/review-dashboard.svg" alt="">
+                <h2>Review Sessions</h2>
+                <p>Review your past sessions and feedback.</p>
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
