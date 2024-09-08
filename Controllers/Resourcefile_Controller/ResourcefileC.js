@@ -2,22 +2,21 @@ import mongoose from 'mongoose';
 import Resourcefile from '../../Models/Resourcefile.js';
 import multer from 'multer';
 
-// Multer setup to store file in memory
-const storage = multer.memoryStorage();
-export const uploadFile = multer({ storage }).single('file');
 
-// Create a new resource file
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+export const uploadFile = upload.single('file'); 
+
 export const createResourcefile = async (req, res) => {
   try {
     const { file } = req;
     const { uploadedBy, tags } = req.body;
 
-    // Check if a file is uploaded
     if (!file) {
       return res.status(400).send('No file uploaded');
     }
 
-    // Create a new resourcefile document
     const newResourcefile = new Resourcefile({
       file: {
         data: file.buffer,
@@ -25,19 +24,17 @@ export const createResourcefile = async (req, res) => {
         originalName: file.originalname,
       },
       uploadedBy: mongoose.Types.ObjectId(uploadedBy),
-      tags: tags ? tags.split(',') : [], // Split comma-separated tags
+      tags: tags ? tags.split(',') : [], 
     });
 
-    // Save to database
     const savedResourcefile = await newResourcefile.save();
-    return res.status(201).json(savedResourcefile); // Send saved file back as response
+    res.status(201).json(savedResourcefile);
   } catch (error) {
     console.error('Error creating resourcefile:', error);
-    return res.status(500).send(`Error creating resourcefile: ${error.message}`);
+    res.status(500).send(`Error creating resourcefile: ${error.message}`);
   }
 };
 
-// Fetch all resource files
 export const getAllResourcesfile = async (req, res) => {
   try {
     const resourcesfile = await Resourcefile.find();
@@ -47,7 +44,6 @@ export const getAllResourcesfile = async (req, res) => {
   }
 };
 
-// Fetch a single resource file by ID
 export const getResourcefileById = async (req, res) => {
   try {
     const resourcefile = await Resourcefile.findById(req.params.id);
@@ -60,7 +56,6 @@ export const getResourcefileById = async (req, res) => {
   }
 };
 
-// Modify a resource file
 export const modifyResourcefile = async (req, res) => {
   try {
     const resourcefile = await Resourcefile.findById(req.params.id);
@@ -79,7 +74,6 @@ export const modifyResourcefile = async (req, res) => {
   }
 };
 
-// Delete a resource file by ID
 export const deleteResourcefileById = async (req, res) => {
   try {
     const result = await Resourcefile.findByIdAndDelete(req.params.id);
