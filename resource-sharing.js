@@ -1,26 +1,25 @@
-
-document.addEventListener("DOMContentLoaded", function() {
-    
+document.addEventListener("DOMContentLoaded", function () {
+    // Attach event listener to the form submit button for URL submission
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
-        event.preventDefault(); 
+        event.preventDefault(); // Prevents the default form submission
 
-        
+        // Get the form values
         const urlName = document.getElementById('urlName').value;
         const urlDescription = document.getElementById('urlDescription').value;
         const url = document.getElementById('url').value;
 
-        
+        // Validate the form fields
         if (!urlName || !url || !urlDescription) {
             alert('Please fill in all the required fields.');
             return;
         }
 
-        
+        // Prepare the resource data
         const newResource = {
             title: urlName,
             description: urlDescription,
             fileUrl: url,
-            uploadedBy: '64fabb90e429b5c4382fb838'
+            uploadedBy: '64fabb90e429b5c4382fb838' // Example user ID
         };
 
         try {
@@ -45,43 +44,24 @@ document.addEventListener("DOMContentLoaded", function() {
             alert('An error occurred while submitting the URL.');
         }
     });
-});
 
+    // Attach event listener to handle file uploads
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('upload');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
 
+    // Trigger the hidden file input when the "Upload File" button is clicked
+    uploadBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-
-document.addEventListener("DOMContentLoaded", async function() {
-    
-    const fetchResources = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/resources'); 
-            if (!response.ok) {
-                throw new Error('Failed to fetch resources');
-            }
-            const resources = await response.json();
-            return resources;
-        } catch (error) {
-            console.error('Error fetching resources:', error);
-            return [];
+    // Display the file name when a file is selected
+    fileInput.addEventListener('change', function () {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`;
+            fileNameDisplay.style.display = 'block'; // Show the file name
+        } else {
+            fileNameDisplay.style.display = 'none'; // Hide the file name if no file is selected
         }
-    };
-
-    
-    const renderResources = (resources) => {
-        const resourceList = document.querySelector('.resource-list ul');
-        resourceList.innerHTML = ''; 
-        resources.forEach(resource => {
-            const resourceItem = document.createElement('li');
-            const resourceLink = document.createElement('a');
-            resourceLink.href = resource.fileUrl;
-            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
-            resourceItem.appendChild(resourceLink);
-            resourceList.appendChild(resourceItem);
-        });
-    };
-
-    
-    const resources = await fetchResources();
-    renderResources(resources);
+    });
 });
-

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,9 @@
 <body>
     <!-- Sidebar Section -->
     <div id="sidebar" class="sidebar collapsed"> <!-- Sidebar collapsed by default -->
-        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
+        <button id="toggleButton" class="toggle-button">
+            <img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar">
+        </button>
         <ul>
             <li><a href="dashboard.html"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
             <li><a href="tutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
@@ -47,9 +48,10 @@
             <div class="resource-container">
                 <div class="resource-upload">
                     <h3>Upload Resources</h3>
-                    <input type="file" id="upload" hidden />
+
+                    <!-- URL Upload Form -->
                     <form class="upload-url-form">
-                        <label for="urlName">URL name:</label><br>
+                        <label for="urlName">URL Name:</label><br>
                         <input type="text" id="urlName" required><br>
                         <label for="urlDescription">URL Description:</label><br>
                         <input type="text" id="urlDescription" required><br>
@@ -57,11 +59,16 @@
                         <input type="url" id="url" required><br>
                         <button type="submit">Submit URL</button>
                     </form>
-                    <label for="upload" class="upload-btn">Upload File</label>
+
+                    <!-- File Upload Section -->
+                    <label for="upload" class="upload-btn" id="uploadBtn">Upload File</label>
+                    <input type="file" id="upload" name="file" hidden />
+                    <p id="fileNameDisplay" style="display:none;"></p> <!-- Display file name after selection -->
                 </div>
+
                 <div class="resource-list">
                     <h3>Available Resources</h3>
-                    <ul></ul>
+                    <ul></ul> <!-- Resources from the database will be dynamically inserted here -->
                 </div>
             </div>
         </div>
