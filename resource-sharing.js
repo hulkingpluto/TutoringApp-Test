@@ -1,4 +1,3 @@
-// Ensure the DOM is fully loaded before running the script
 document.addEventListener("DOMContentLoaded", function() {
     // Attach event listener to the form submit button
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
@@ -9,12 +8,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const urlDescription = document.getElementById('urlDescription').value;
         const url = document.getElementById('url').value;
 
+        // Validate the form fields
+        if (!urlName || !url || !urlDescription) {
+            alert('Please fill in all the required fields.');
+            return;
+        }
+
         // Prepare the resource data
         const newResource = {
             title: urlName,
             description: urlDescription,
             fileUrl: url,
-            uploadedBy: '19' // Change this to dynamic user ID if needed
+            uploadedBy: '64fabb90e429b5c4382fb838' // Replace with a real user ID from your system
         };
 
         // Send the data to the server

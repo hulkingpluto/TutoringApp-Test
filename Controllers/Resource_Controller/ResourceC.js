@@ -3,10 +3,12 @@ import Resource from "../../Models/Resources.js";
 
 export const createResource = async (payload) => {
   try {
+    console.log("Creating resource with payload:", payload); // Log incoming data for debugging
     const newResource = new Resource(payload);
     const savedResource = await newResource.save();
     return savedResource;
   } catch (error) {
+    console.error("Error creating resource:", error);
     throw new Error(`Error creating resource: ${error.message}`);
   }
 };
