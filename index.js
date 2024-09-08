@@ -6,6 +6,7 @@ import session from 'express-session';
 import authRoutes from './Authentication/RouteA.js'; 
 import userRoutes from './Routes/User_Routes/UserR.js'; 
 import resourceRoutes from './Routes/Resource_Routes/ResourceR.js';
+import resourcefileRoutes from './Routes/Resourcefile_Routes/ResourcefileR.js'
 import bookingRoutes from './Routes/Booking_Routes/BookingR.js';
 import notificationRoutes from './Routes/Notification_Routes/NotificationR.js';
 import virtualtutoringRoutes from './Routes/VirtualTutoring_Routes/VirtualTutoringR.js';
@@ -26,9 +27,6 @@ mongoose.connect(mongoURI, {
 
 
 app.use(express.json());
-app.use(express.static('css'));
-app.use(express.static('js'));
-
 
 
 // Passport session setup
@@ -48,16 +46,18 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/virtualtutoring', virtualtutoringRoutes);
-
+app.use('/api/resourcesfile', resourcefileRoutes);
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'index.html'));
+app.use(express.static(__dirname));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname,'dashboard.html'));
 });
+
+
 
 
 const port = process.env.PORT || 3000;
