@@ -19,10 +19,9 @@ document.addEventListener("DOMContentLoaded", function() {
             title: urlName,
             description: urlDescription,
             fileUrl: url,
-            uploadedBy: '64fabb90e429b5c4382fb838' // Replace with a real user ID from your system
+            uploadedBy: '64fabb90e429b5c4382fb838'
         };
 
-        // Send the data to the server
         try {
             const response = await fetch('http://localhost:3000/api/resources', {
                 method: 'POST',
@@ -46,3 +45,42 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+
+//Display Whatever is in the db
+
+document.addEventListener("DOMContentLoaded", async function() {
+    // Function to fetch resources from the backend
+    const fetchResources = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/resources'); // Replace with your actual API URL
+            if (!response.ok) {
+                throw new Error('Failed to fetch resources');
+            }
+            const resources = await response.json();
+            return resources;
+        } catch (error) {
+            console.error('Error fetching resources:', error);
+            return [];
+        }
+    };
+
+    // Function to render resources into the DOM
+    const renderResources = (resources) => {
+        const resourceList = document.querySelector('.resource-list ul');
+        resourceList.innerHTML = ''; // Clear the list first
+        resources.forEach(resource => {
+            const resourceItem = document.createElement('li');
+            const resourceLink = document.createElement('a');
+            resourceLink.href = resource.fileUrl;
+            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
+            resourceItem.appendChild(resourceLink);
+            resourceList.appendChild(resourceItem);
+        });
+    };
+
+    // Fetch and display resources on page load
+    const resources = await fetchResources();
+    renderResources(resources);
+});
+
