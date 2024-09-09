@@ -1,38 +1,24 @@
 import mongoose from 'mongoose';
 import Resourcefile from '../../Models/Resourcefile.js';
-import multer from 'multer';
 
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-export const uploadFile = upload.single('file'); 
-
-export const createResourcefile = async (req, res) => {
-  try {
-    const { file } = req;
-    const { uploadedBy, tags } = req.body;
-
-    if (!file) {
-      return res.status(400).send('No file uploaded');
-    }
-
-    const newResourcefile = new Resourcefile({
-      file: {
-        data: file.buffer,
-        contentType: file.mimetype,
-        originalName: file.originalname,
-      },
-      uploadedBy: mongoose.Types.ObjectId(uploadedBy),
-      tags: tags ? tags.split(',') : [], 
-    });
-
-    const savedResourcefile = await newResourcefile.save();
-    res.status(201).json(savedResourcefile);
-  } catch (error) {
-    console.error('Error creating resourcefile:', error);
-    res.status(500).send(`Error creating resourcefile: ${error.message}`);
+export const createResourcefile = async (file, uploadedBy, tags) => {
+  if (!file) {
+    throw new Error('No file uploaded');
   }
+
+  const newResourcefile = new Resourcefile({
+    file: {
+      data: file.buffer,
+      contentType: file.mimetype,
+      originalName: file.originalname,
+    },
+    uploadedBy: new mongoose.Types.ObjectId(uploadedBy),
+    tags: tags ? tags.split(',') : [], 
+  });
+
+  
+  return await newResourcefile.save();
 };
 
 export const getAllResourcesfile = async (req, res) => {

@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-
 document.addEventListener("DOMContentLoaded", async function() {
     
     const fetchResources = async () => {
@@ -85,3 +84,42 @@ document.addEventListener("DOMContentLoaded", async function() {
     renderResources(resources);
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    
+    document.getElementById('upload').addEventListener('change', async function (event) {
+        event.preventDefault();
+
+        const fileInput = document.getElementById('upload');
+
+        
+        if (fileInput.files.length === 0) {
+            alert('Please select a file.');
+            return;
+        }
+
+        
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]); 
+        formData.append('uploadedBy', '64fabb90e429b5c4382fb838'); 
+
+        try {
+            const response = await fetch('http://localhost:3000/api/resourcesfile', {
+                method: 'POST',
+                body: formData, 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert('DOC submitted successfully!');
+                console.log('New resource created:', data);
+            } else {
+                const errorData = await response.json();
+                alert('Error submitting DOC: ' + errorData.message);
+            }
+        } catch (error) {
+            console.error('Error submitting DOC:', error);
+            alert('An error occurred while submitting the DOC.');
+        }
+    });
+});
