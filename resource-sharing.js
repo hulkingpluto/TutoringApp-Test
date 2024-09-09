@@ -49,118 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //Display Whatever is in the db
 
-document.addEventListener("DOMContentLoaded", async function() {
-    // Function to fetch resources from the backend
-    const fetchResources = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/resources');
-            if (!response.ok) {
-                throw new Error('Failed to fetch resources');
-            }
-            const resources = await response.json();
-            return resources;
-        } catch (error) {
-            console.error('Error fetching resources:', error);
-            return [];
-        }
-    };
-
-    const fetchResourcesFiles = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/resourcefile');
-            if (!response.ok) {
-                throw new Error('Failed to fetch resources');
-            }
-            const resourcesfile = await response.json();
-            return resourcesfile;
-        } catch (error) {
-            console.error('Error fetching resources:', error);
-            return [];
-        }
-    }
-
-    const urls = fetchResources();
-    const files = fetchResourcesFiles();
-
-    const objectToDisplay = {...urls, ...files}
-
-    // Function to delete a resource from the backend
-    const deleteResource = async (resourceId, isFile) => {
-        const apiEndpoint = isFile ? `http://localhost:3000/api/resourcesfile/${resourceId}` : `http://localhost:3000/api/resources/${resourceId}`;
-        
-        try {
-            const response = await fetch(apiEndpoint, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                alert('Resource deleted successfully!');
-                return true; // Return true if deletion was successful
-            } else {
-                const errorData = await response.json();
-                alert('Error deleting resource: ' + errorData.message);
-                return false; // Return false if deletion failed
-            }
-        } catch (error) {
-            console.error('Error deleting resource:', error);
-            alert('An error occurred while deleting the resource.');
-            return false;
-        }
-    };
-
-
-    // Function to render resources into the DOM
-    const renderResources = (resources) => {
-        const resourceList = document.querySelector('.resource-list ul');
-        resourceList.innerHTML = ''; // Clear the list first
-
-        resources.forEach(resource => {
-            const resourceItem = document.createElement('li');
-            const resourceLink = document.createElement('a');
-            const deleteButton = document.createElement('button'); // Create delete button
-
-            // Check if the resource is a URL or file
-            if (resource.fileUrl) {
-                resourceLink.href = resource.fileUrl; // Regular URL link
-                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (URL)`;
-            } else if (resource.filePath) {
-                resourceLink.href = `http://localhost:3000/${resource.filePath}`; // Adjust the path for files
-                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (File)`;
-            }
-
-            // Add delete button
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', async () => {
-                const isFile = !!resource.filePath; // Check if it's a file resource
-                const isDeleted = await deleteResource(resource._id, isFile); // Call the delete function
-
-                if (isDeleted) {
-                    resourceItem.remove(); // Remove the item from the DOM on successful deletion
-                }
-            });
-
-            resourceItem.appendChild(resourceLink);
-            resourceItem.appendChild(deleteButton); // Append delete button to the item
-            resourceList.appendChild(resourceItem);
-        });
-    };
-
-    // Fetch and display resources from both endpoints on page load
-    try {
-        const [urls, files] = await Promise.all([fetchResources(), fetchResourcesFiles()]);
-
-        // Combine both URL and file resources into one array
-        const objectToDisplay = [...urls, ...files];
-
-        // Render the combined resources
-        renderResources(objectToDisplay);
-
-    } catch (error) {
-        console.error('Error fetching and rendering resources:', error);
-    }
-});
-
-/* Posting documents */
 document.addEventListener("DOMContentLoaded", function () {
     // Attach event listener to the form submission or file upload event
     document.getElementById('upload').addEventListener('change', async function (event) {
@@ -199,3 +87,74 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", async function () {
+    
+    const fetchResources = async (url) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch from ${url}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`Error fetching from ${url}:`, error);
+            return [];
+        }
+    };
+
+    const deleteResource = async (resourceId, isFile) => {
+        const apiEndpoint = isFile ? `http://localhost:3000/api/resourcesfile/${resourceId}` :` http://localhost:3000/api/resources/${resourceId}`;
+        
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Resource deleted successfully!');
+                return true; // Return true if deletion was successful
+            } else {
+                const errorData = await response.json();
+                alert('Error deleting resource: ' + errorData.message);
+                return false; // Return false if deletion failed
+            }
+        } catch (error) {
+            console.error('Error deleting resource:', error);
+            alert('An error occurred while deleting the resource.');
+            return false;
+        }
+    };
+
+    
+    const renderResources = (resources, files) => {
+        const resourceList = document.querySelector('.resource-list ul');
+        resourceList.innerHTML = ''; 
+        
+        
+        resources.forEach(resource => {
+            const resourceItem = document.createElement('li');
+            const resourceLink = document.createElement('a');
+            resourceLink.href = resource.fileUrl;
+            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
+            resourceItem.appendChild(resourceLink);
+            resourceList.appendChild(resourceItem);
+        });
+
+        
+        files.forEach(file => {
+            const fileItem = document.createElement('li');
+            const fileLink = document.createElement('a');
+            fileLink.href = `http://localhost:3000/api/resourcesfile/${file._id}`; 
+            fileLink.textContent = `${file.file.originalName}`;
+            fileItem.appendChild(fileLink);
+            resourceList.appendChild(fileItem);
+        });
+    };
+
+    
+    const resources = await fetchResources('http://localhost:3000/api/resources');
+    const files = await fetchResources('http://localhost:3000/api/resourcesfile');
+    renderResources(resources, files);
+});
+

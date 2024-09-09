@@ -6,7 +6,8 @@ import {
   modifyResourcefile,
   deleteResourcefileById,
 } from '../../Controllers/Resourcefile_Controller/ResourcefileC.js';
-import { uploadFile } from '../../multerconfig.js'; 
+import { uploadFile } from '../../multerconfig.js';
+import Resourcefile from '../../Models/Resourcefile.js'; 
 
 const router = express.Router();
 
@@ -22,14 +23,22 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const resourcefile = await getResourcefileById(id);
-    if (resourcefile) {
-      res.status(200).json(resourcefile);
-    } else {
-      res.status(404).json({ message: 'Resourcefile not found' });
+    const resourcefile = await Resourcefile.findById(id);
+
+    if (!resourcefile) {
+      return res.status(404).json({ message: 'File not found' });
     }
+
+    
+    res.set({
+      'Content-Type': resourcefile.file.contentType,
+      'Content-Disposition': `attachment; filename="${resourcefile.file.originalName}"`,
+    });
+
+    
+    res.send(resourcefile.file.data);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching resourcefile', error: error.message });
+    res.status(500).json({ message: 'Error downloading file', error: error.message });
   }
 });
 
