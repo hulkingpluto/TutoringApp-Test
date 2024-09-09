@@ -84,22 +84,80 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     const objectToDisplay = {...urls, ...files}
 
+    // Function to delete a resource from the backend
+    const deleteResource = async (resourceId, isFile) => {
+        const apiEndpoint = isFile ? `http://localhost:3000/api/resourcesfile/${resourceId}` : `http://localhost:3000/api/resources/${resourceId}`;
+        
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Resource deleted successfully!');
+                return true; // Return true if deletion was successful
+            } else {
+                const errorData = await response.json();
+                alert('Error deleting resource: ' + errorData.message);
+                return false; // Return false if deletion failed
+            }
+        } catch (error) {
+            console.error('Error deleting resource:', error);
+            alert('An error occurred while deleting the resource.');
+            return false;
+        }
+    };
+
+
     // Function to render resources into the DOM
     const renderResources = (resources) => {
         const resourceList = document.querySelector('.resource-list ul');
         resourceList.innerHTML = ''; // Clear the list first
+
         resources.forEach(resource => {
             const resourceItem = document.createElement('li');
             const resourceLink = document.createElement('a');
-            resourceLink.href = resource.fileUrl;
-            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
+            const deleteButton = document.createElement('button'); // Create delete button
+
+            // Check if the resource is a URL or file
+            if (resource.fileUrl) {
+                resourceLink.href = resource.fileUrl; // Regular URL link
+                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (URL)`;
+            } else if (resource.filePath) {
+                resourceLink.href = `http://localhost:3000/${resource.filePath}`; // Adjust the path for files
+                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (File)`;
+            }
+
+            // Add delete button
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', async () => {
+                const isFile = !!resource.filePath; // Check if it's a file resource
+                const isDeleted = await deleteResource(resource._id, isFile); // Call the delete function
+
+                if (isDeleted) {
+                    resourceItem.remove(); // Remove the item from the DOM on successful deletion
+                }
+            });
+
             resourceItem.appendChild(resourceLink);
+            resourceItem.appendChild(deleteButton); // Append delete button to the item
             resourceList.appendChild(resourceItem);
         });
     };
 
-    // Fetch and display resources on page load
-    renderResources(objectToDisplay);
+    // Fetch and display resources from both endpoints on page load
+    try {
+        const [urls, files] = await Promise.all([fetchResources(), fetchResourcesFiles()]);
+
+        // Combine both URL and file resources into one array
+        const objectToDisplay = [...urls, ...files];
+
+        // Render the combined resources
+        renderResources(objectToDisplay);
+
+    } catch (error) {
+        console.error('Error fetching and rendering resources:', error);
+    }
 });
 
 /* Posting documents */
