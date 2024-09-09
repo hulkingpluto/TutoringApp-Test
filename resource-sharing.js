@@ -3,18 +3,18 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
         event.preventDefault(); 
 
-        
+        // Get the form values
         const urlName = document.getElementById('urlName').value;
         const urlDescription = document.getElementById('urlDescription').value;
         const url = document.getElementById('url').value;
 
-        
+        // Validate the form fields
         if (!urlName || !url || !urlDescription) {
             alert('Please fill in all the required fields.');
             return;
         }
 
-        
+        // Prepare the resource data
         const newResource = {
             title: urlName,
             description: urlDescription,
@@ -47,30 +47,30 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
+//Display Whatever is in the db
 
 document.addEventListener("DOMContentLoaded", function () {
-    
+    // Attach event listener to the form submission or file upload event
     document.getElementById('upload').addEventListener('change', async function (event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent the default form submission
 
         const fileInput = document.getElementById('upload');
 
-        
+        // Validate if a file is selected
         if (fileInput.files.length === 0) {
             alert('Please select a file.');
             return;
         }
 
-        
+        // Create a new FormData object to handle the file upload
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]); 
-        formData.append('uploadedBy', '64fabb90e429b5c4382fb838'); 
+        formData.append('file', fileInput.files[0]); // Add the file to FormData
+        formData.append('uploadedBy', '64fabb90e429b5c4382fb838'); // Example user ID, replace with actual ID
 
         try {
-            const response = await fetch('http://localhost:3000/api/resourcesfile', {
+            const response = await fetch('http://localhost:3000/api/resourcefile', {
                 method: 'POST',
-                body: formData, 
+                body: formData, // Use FormData instead of JSON.stringify
             });
 
             if (response.ok) {
