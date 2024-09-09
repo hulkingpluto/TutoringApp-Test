@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Attach event listener to the form submit button
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevents the default form submission
+        event.preventDefault(); 
 
         // Get the form values
         const urlName = document.getElementById('urlName').value;
@@ -50,74 +50,57 @@ document.addEventListener("DOMContentLoaded", function() {
 //Display Whatever is in the db
 
 document.addEventListener("DOMContentLoaded", async function() {
-    // Function to fetch URL resources from the backend
-    const fetchUrlResources = async () => {
+    // Function to fetch resources from the backend
+    const fetchResources = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/resources'); // Replace with your actual API URL for URLs
+            const response = await fetch('http://localhost:3000/api/resources');
             if (!response.ok) {
-                throw new Error('Failed to fetch URL resources');
+                throw new Error('Failed to fetch resources');
             }
-            const urlResources = await response.json();
-            return urlResources;
+            const resources = await response.json();
+            return resources;
         } catch (error) {
-            console.error('Error fetching URL resources:', error);
+            console.error('Error fetching resources:', error);
             return [];
         }
     };
 
-    // Function to fetch file resources from the backend
-    const fetchFileResources = async () => {
+    const fetchResourcesFiles = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/resourcesfile'); // Replace with your actual API URL for files
+            const response = await fetch('http://localhost:3000/api/resourcefile');
             if (!response.ok) {
-                throw new Error('Failed to fetch file resources');
+                throw new Error('Failed to fetch resources');
             }
-            const fileResources = await response.json();
-            return fileResources;
+            const resourcesfile = await response.json();
+            return resourcesfile;
         } catch (error) {
-            console.error('Error fetching file resources:', error);
+            console.error('Error fetching resources:', error);
             return [];
         }
-    };
+    }
+
+    const urls = fetchResources();
+    const files = fetchResourcesFiles();
+
+    const objectToDisplay = {...urls, ...files}
 
     // Function to render resources into the DOM
     const renderResources = (resources) => {
         const resourceList = document.querySelector('.resource-list ul');
         resourceList.innerHTML = ''; // Clear the list first
-
         resources.forEach(resource => {
             const resourceItem = document.createElement('li');
             const resourceLink = document.createElement('a');
-
-            // Check if the resource is a URL or file
-            if (resource.fileUrl) {
-                resourceLink.href = resource.fileUrl; // Regular URL link
-                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (URL)`;
-            } else if (resource.filePath) {
-                resourceLink.href = `http://localhost:3000/${resource.filePath}`; // Adjust the path for files
-                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'} (File)`;
-            }
-
+            resourceLink.href = resource.fileUrl;
+            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
             resourceItem.appendChild(resourceLink);
             resourceList.appendChild(resourceItem);
         });
     };
 
-    // Fetch and display resources from both endpoints on page load
-    try {
-        const urlResources = await fetchUrlResources();
-        const fileResources = await fetchFileResources();
-
-        // Combine both URL and file resources into one array
-        const allResources = [...urlResources, ...fileResources];
-        
-        // Render the combined resources
-        renderResources(allResources);
-    } catch (error) {
-        console.error('Error fetching and rendering resources:', error);
-    }
+    // Fetch and display resources on page load
+    renderResources(objectToDisplay);
 });
-
 
 /* Posting documents */
 document.addEventListener("DOMContentLoaded", function () {
@@ -139,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append('uploadedBy', '64fabb90e429b5c4382fb838'); // Example user ID, replace with actual ID
 
         try {
-            const response = await fetch('http://localhost:3000/api/resourcesfile', {
+            const response = await fetch('http://localhost:3000/api/resourcefile', {
                 method: 'POST',
                 body: formData, // Use FormData instead of JSON.stringify
             });
