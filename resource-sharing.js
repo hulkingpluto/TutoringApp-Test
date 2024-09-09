@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
@@ -50,10 +49,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 document.addEventListener("DOMContentLoaded", async function() {
-    
+    // Function to fetch resources from the backend
     const fetchResources = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/resources'); 
+            const response = await fetch('http://localhost:3000/api/resources'); // Replace with your actual API URL
             if (!response.ok) {
                 throw new Error('Failed to fetch resources');
             }
@@ -65,10 +64,10 @@ document.addEventListener("DOMContentLoaded", async function() {
         }
     };
 
-    
+    // Function to render resources into the DOM
     const renderResources = (resources) => {
         const resourceList = document.querySelector('.resource-list ul');
-        resourceList.innerHTML = ''; 
+        resourceList.innerHTML = ''; // Clear the list first
         resources.forEach(resource => {
             const resourceItem = document.createElement('li');
             const resourceLink = document.createElement('a');
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         });
     };
 
-    
+    // Fetch and display resources on page load
     const resources = await fetchResources();
     renderResources(resources);
 });
