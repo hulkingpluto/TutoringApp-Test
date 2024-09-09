@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    
+    // Attach event listener to the form submit button
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
         event.preventDefault(); 
 
@@ -48,41 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-document.addEventListener("DOMContentLoaded", async function() {
-    // Function to fetch resources from the backend
-    const fetchResources = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/resources'); // Replace with your actual API URL
-            if (!response.ok) {
-                throw new Error('Failed to fetch resources');
-            }
-            const resources = await response.json();
-            return resources;
-        } catch (error) {
-            console.error('Error fetching resources:', error);
-            return [];
-        }
-    };
-
-    // Function to render resources into the DOM
-    const renderResources = (resources) => {
-        const resourceList = document.querySelector('.resource-list ul');
-        resourceList.innerHTML = ''; // Clear the list first
-        resources.forEach(resource => {
-            const resourceItem = document.createElement('li');
-            const resourceLink = document.createElement('a');
-            resourceLink.href = resource.fileUrl;
-            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
-            resourceItem.appendChild(resourceLink);
-            resourceList.appendChild(resourceItem);
-        });
-    };
-
-    // Fetch and display resources on page load
-    const resources = await fetchResources();
-    renderResources(resources);
-});
-
 
 document.addEventListener("DOMContentLoaded", function () {
     
@@ -122,3 +87,74 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", async function () {
+    
+    const fetchResources = async (url) => {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch from ${url}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`Error fetching from ${url}:`, error);
+            return [];
+        }
+    };
+
+    const deleteResource = async (resourceId, isFile) => {
+        const apiEndpoint = isFile ? `http://localhost:3000/api/resourcesfile/${resourceId}` :` http://localhost:3000/api/resources/${resourceId}`;
+        
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Resource deleted successfully!');
+                return true; // Return true if deletion was successful
+            } else {
+                const errorData = await response.json();
+                alert('Error deleting resource: ' + errorData.message);
+                return false; // Return false if deletion failed
+            }
+        } catch (error) {
+            console.error('Error deleting resource:', error);
+            alert('An error occurred while deleting the resource.');
+            return false;
+        }
+    };
+
+    
+    const renderResources = (resources, files) => {
+        const resourceList = document.querySelector('.resource-list ul');
+        resourceList.innerHTML = ''; 
+        
+        
+        resources.forEach(resource => {
+            const resourceItem = document.createElement('li');
+            const resourceLink = document.createElement('a');
+            resourceLink.href = resource.fileUrl;
+            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
+            resourceItem.appendChild(resourceLink);
+            resourceList.appendChild(resourceItem);
+        });
+
+        
+        files.forEach(file => {
+            const fileItem = document.createElement('li');
+            const fileLink = document.createElement('a');
+            fileLink.href = `http://localhost:3000/api/resourcesfile/${file._id}`; 
+            fileLink.textContent = `${file.file.originalName}`;
+            fileItem.appendChild(fileLink);
+            resourceList.appendChild(fileItem);
+        });
+    };
+
+    
+    const resources = await fetchResources('http://localhost:3000/api/resources');
+    const files = await fetchResources('http://localhost:3000/api/resourcesfile');
+    renderResources(resources, files);
+});
+

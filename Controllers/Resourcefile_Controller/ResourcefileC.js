@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Resourcefile from '../../Models/Resourcefile.js';
+import Resourcefile from '../../Models/Resourcefile.js'
 
 
 export const createResourcefile = async (file, uploadedBy, tags) => {
@@ -21,53 +21,53 @@ export const createResourcefile = async (file, uploadedBy, tags) => {
   return await newResourcefile.save();
 };
 
-export const getAllResourcesfile = async (req, res) => {
+export const getAllResourcesfile = async () => {
   try {
     const resourcesfile = await Resourcefile.find();
-    res.json(resourcesfile);
+    return resourcesfile;
   } catch (error) {
-    res.status(500).send(`Error fetching resourcesfile: ${error.message}`);
+   throw new Error(`Error fetching resourcesfile: ${error.message}`);
   }
 };
 
-export const getResourcefileById = async (req, res) => {
+export const getResourcefileById = async (id) => {
   try {
-    const resourcefile = await Resourcefile.findById(req.params.id);
+    const resourcefile = await Resourcefile.findById(id);
     if (!resourcefile) {
-      return res.status(404).send('Resourcefile not found');
+      throw new Error('Resourcefile not found');
     }
-    res.json(resourcefile);
+    return resourcefile;
   } catch (error) {
-    res.status(500).send(`Error fetching resourcefile: ${error.message}`);
+    throw new Error(`Error fetching resourcefile: ${error.message}`);
   }
 };
 
-export const modifyResourcefile = async (req, res) => {
+export const modifyResourcefile = async (id, payload) => {
   try {
-    const resourcefile = await Resourcefile.findById(req.params.id);
+    const resourcefile = await Resourcefile.findById(id);
     if (!resourcefile) {
-      return res.status(404).send('Resourcefile not found');
+      throw new Error('Resourcefile not found');
     }
 
-    Object.keys(req.body).forEach((key) => {
-      resourcefile[key] = req.body[key];
+    Object.keys(payload).forEach((key) => {
+      resourcefile[key] = payload[key];
     });
 
     const updatedResourcefile = await resourcefile.save();
-    res.json(updatedResourcefile);
+    return updatedResourcefile;
   } catch (error) {
-    res.status(500).send(`Error updating resourcefile: ${error.message}`);
+    throw new Error(`Error updating resourcefile: ${error.message}`);
   }
 };
 
-export const deleteResourcefileById = async (req, res) => {
+export const deleteResourcefileById = async (id) => {
   try {
-    const result = await Resourcefile.findByIdAndDelete(req.params.id);
+    const result = await Resourcefile.findByIdAndDelete(id);
     if (!result) {
-      return res.status(404).send('Resourcefile not found');
+      throw new Error('Resourcefile not found');
     }
-    res.json(result);
+    return result;
   } catch (error) {
-    res.status(500).send(`Error deleting resourcefile: ${error.message}`);
+    throw new Error(`Error deleting resourcefile: ${error.message}`);
   }
 };
