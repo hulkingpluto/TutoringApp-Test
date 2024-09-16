@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Tutoring App</title>
+    <link rel="stylesheet" href="./Pagescss/register.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .add-more {
+            cursor: pointer;
+            color: #ffffff;
+            margin-left: 10px;
+        }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-section">
+            <h1>Register</h1>
+            <form id="register-form" enctype="multipart/form-data">
+                <div class="profile-picture-upload">
+                    <label for="profilePicture" class="profile-picture-label">
+                        <input type="file" id="profilePicture" name="profilePicture" accept="image/*" style="display: none;">
+                        <div class="profile-picture-container">
+                            <img id="profilePicturePreview" src="./Icons/profile2.jpg" alt="Profile Picture">
+                            <div class="camera-icon">
+                                <img src="./Icons/background.jpg" alt="Upload">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="" selected disabled>Select Role</option>
+                        <option value="student">Student</option>
+                        <option value="tutor">Tutor</option>
+                    </select>
+                </div>
+
+                <!-- Student Fields -->
+                <div id="student-fields" class="hidden">
+                    <div class="input-group">
+                        <label for="student-fname">First Name</label>
+                        <input type="text" id="student-fname" name="fname">
+                    </div>
+                    <div class="input-group">
+                        <label for="student-lname">Last Name</label>
+                        <input type="text" id="student-lname" name="lname">
+                    </div>
+                    <div class="input-group" id="courses-group">
+                        <label for="courses">Courses</label>
+                        <input type="text" id="courses" name="courses[]" placeholder="Enter your course">
+                        <span class="add-more" id="add-more-courses">+ Add more</span>
+                    </div>
+                </div>
+
+                <!-- Tutor Fields -->
+                <div id="tutor-fields" class="hidden">
+                    <div class="input-group">
+                        <label for="tutor-fname">First Name</label>
+                        <input type="text" id="tutor-fname" name="fname">
+                    </div>
+                    <div class="input-group">
+                        <label for="tutor-lname">Last Name</label>
+                        <input type="text" id="tutor-lname" name="lname">
+                    </div>
+                    <div class="input-group" id="subjects-group">
+                        <label for="subjects">Subjects</label>
+                        <input type="text" id="subjects" name="subjects[]" placeholder="Enter a subject you teach">
+                        <span class="add-more" id="add-more-subjects">+ Add more</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="qualification">Qualification</label>
+                        <input type="text" id="qualification" name="qualification">
+                        <span class="add-more" id="add-more-subjects">+ Add more</span>
+                    </div>
+                </div>
+
+                <!-- Common Fields -->
+                <div id="common-fields" class="hidden">
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="section hidden" id="submit-button">Register</button>
+            </form>
+            <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+        <div class="image-section">
+            <img src="./Icons/online-tutoring-benefits.jpg" alt="Tutoring App">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('role').addEventListener('change', function () {
+            const role = this.value;
+            const studentFields = document.getElementById('student-fields');
+            const tutorFields = document.getElementById('tutor-fields');
+            const commonFields = document.getElementById('common-fields');
+            const submitButton = document.getElementById('submit-button');
+
+            // Hide all fields initially
+            studentFields.classList.add('hidden');
+            tutorFields.classList.add('hidden');
+            commonFields.classList.add('hidden');
+            submitButton.classList.add('hidden');
+
+            // Show relevant fields based on role selection
+            if (role === 'student') {
+                studentFields.classList.remove('hidden');
+                studentFields.querySelector('input[name="fname"]').setAttribute('required', 'required');
+                studentFields.querySelector('input[name="lname"]').setAttribute('required', 'required');
+                studentFields.querySelector('input[name="courses[]"]').setAttribute('required', 'required');
+                commonFields.classList.remove('hidden');
+                submitButton.classList.remove('hidden');
+            } else if (role === 'tutor') {
+                tutorFields.classList.remove('hidden');
+                tutorFields.querySelector('input[name="fname"]').setAttribute('required', 'required');
+                tutorFields.querySelector('input[name="lname"]').setAttribute('required', 'required');
+                tutorFields.querySelector('input[name="subjects[]"').setAttribute('required', 'required');
+                tutorFields.querySelector('input[name="qualification"]').setAttribute('required', 'required');
+                commonFields.classList.remove('hidden');
+                submitButton.classList.remove('hidden');
+            } 
+        });
+
+        // Add more courses for students
+        document.getElementById('add-more-courses').addEventListener('click', function () {
+            const coursesGroup = document.getElementById('courses-group');
+            const newCourse = document.createElement('input');
+            newCourse.type = 'text';
+            newCourse.name = 'courses[]';
+            newCourse.placeholder = 'Enter another course';
+            newCourse.classList.add('input-group');
+            coursesGroup.appendChild(newCourse);
+        });
+
+        // Add more subjects for tutors
+        document.getElementById('add-more-subjects').addEventListener('click', function () {
+            const subjectsGroup = document.getElementById('subjects-group');
+            const newSubject = document.createElement('input');
+            newSubject.type = 'text';
+            newSubject.name = 'subjects[]';
+            newSubject.placeholder = 'Enter another subject';
+            newSubject.classList.add('input-group');
+            subjectsGroup.appendChild(newSubject);
+        });
+    </script>
+    <script src="../Client-servers/register.js"></script>
+</body>
+</html>

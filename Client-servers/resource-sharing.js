@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Attach event listener to the form submit button
     document.querySelector('.upload-url-form').addEventListener('submit', async function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
 
         // Get the form values
         const urlName = document.getElementById('urlName').value;
         const urlDescription = document.getElementById('urlDescription').value;
         const url = document.getElementById('url').value;
+        const userId = localStorage.getItem('userId'); 
 
         // Validate the form fields
         if (!urlName || !url || !urlDescription) {
@@ -19,13 +20,14 @@ document.addEventListener("DOMContentLoaded", function() {
             title: urlName,
             description: urlDescription,
             fileUrl: url,
-            uploadedBy: '64fabb90e429b5c4382fb838'
+            uploadedBy: userId, // Use the actual user ID
         };
 
         try {
             const response = await fetch('http://localhost:3000/api/resources', {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newResource),
@@ -46,15 +48,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-
-//Display Whatever is in the db
-
+// Display Whatever is in the db
 document.addEventListener("DOMContentLoaded", function () {
     // Attach event listener to the form submission or file upload event
     document.getElementById('upload').addEventListener('change', async function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         const fileInput = document.getElementById('upload');
+        const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
 
         // Validate if a file is selected
         if (fileInput.files.length === 0) {
@@ -65,11 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Create a new FormData object to handle the file upload
         const formData = new FormData();
         formData.append('file', fileInput.files[0]); // Add the file to FormData
-        formData.append('uploadedBy', '64fabb90e429b5c4382fb838'); // Example user ID, replace with actual ID
+        formData.append('uploadedBy', userId); // Use the actual user ID
 
         try {
             const response = await fetch('http://localhost:3000/api/resourcesfile', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
+                },
                 body: formData, // Use FormData instead of JSON.stringify
             });
 
@@ -89,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
+    const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
+
     // Function to fetch resources from the backend
     const fetchResources = async (url) => {
         try {
@@ -134,38 +140,42 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Render string-based resources
         resources.forEach(resource => {
-            const resourceItem = document.createElement('li');
-            const resourceLink = document.createElement('a');
-            resourceLink.href = resource.fileUrl;
-            resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
-            
-            // Create delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'x';
-            deleteButton.classList.add('delete-btn');
-            deleteButton.onclick = () => deleteResource(resource._id, 'resource');
-            
-            resourceItem.appendChild(resourceLink);
-            resourceItem.appendChild(deleteButton);
-            resourceList.appendChild(resourceItem);
+            if (resource.uploadedBy === userId) {
+                const resourceItem = document.createElement('li');
+                const resourceLink = document.createElement('a');
+                resourceLink.href = resource.fileUrl;
+                resourceLink.textContent = `${resource.title} - ${resource.description || 'No description'}`;
+                
+                // Create delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'x';
+                deleteButton.classList.add('delete-btn');
+                deleteButton.onclick = () => deleteResource(resource._id, 'resource');
+                
+                resourceItem.appendChild(resourceLink);
+                resourceItem.appendChild(deleteButton);
+                resourceList.appendChild(resourceItem);
+            }
         });
 
         // Render file-based resources
         files.forEach(file => {
-            const fileItem = document.createElement('li');
-            const fileLink = document.createElement('a');
-            fileLink.href = `http://localhost:3000/api/resourcesfile/${file._id}`; // Adjust URL as needed for file access
-            fileLink.textContent = `${file.file.originalName}`;
-            
-            // Create delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'x';
-            deleteButton.classList.add('delete-btn');
-            deleteButton.onclick = () => deleteResource(file._id, 'file');
-            
-            fileItem.appendChild(fileLink);
-            fileItem.appendChild(deleteButton);
-            resourceList.appendChild(fileItem);
+            if (file.uploadedBy === userId) {
+                const fileItem = document.createElement('li');
+                const fileLink = document.createElement('a');
+                fileLink.href = `http://localhost:3000/api/resourcesfile/${file._id}`; // Adjust URL as needed for file access
+                fileLink.textContent = `${file.file.originalName}`;
+                
+                // Create delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'x';
+                deleteButton.classList.add('delete-btn');
+                deleteButton.onclick = () => deleteResource(file._id, 'file');
+                
+                fileItem.appendChild(fileLink);
+                fileItem.appendChild(deleteButton);
+                resourceList.appendChild(fileItem);
+            }
         });
     };
 

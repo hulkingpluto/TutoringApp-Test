@@ -12,12 +12,32 @@
         <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
         <ul>
             <li><a href="dashboard.html"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
-            <li><a href="tutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
-            <li><a href="schedule.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
-            <li><a href="resources.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
+            <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
+            <li><a href="bookings.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
+            <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
             <li><a href="reviews.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+            <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
         </ul>
     </div>
+    <script>
+        function handleLogout() {
+            localStorage.removeItem('token');
+            window.location.href = './login.html';
+        }
+    </script>
+
+
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = './login.html';
+        } else {
+            document.body.style.display = 'block';
+        }
+    });
+</script>
 
     <!-- Header Section -->
     <div class="header">

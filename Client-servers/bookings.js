@@ -63,8 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); // Prevent default form submission
 
         // Gather form data
-        const student = document.getElementById('student').value;
+        const student = "66d3c6bea7133bbc3a897ec1";
         const tutor = document.getElementById('tutor').value;
+        const subject=document.getElementById('subject').value;
         const sessionDate = document.getElementById('sessionDate').value;
         const sessionTime = document.getElementById('sessionTime').value;
         const duration = document.getElementById('duration').value;
@@ -74,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bookingData = {
             student: student,
             tutor: tutor,
+            subject:subject,
             sessionDate: sessionDate,
             sessionTime: sessionTime,
             duration: parseInt(duration) * 60, // Assuming you want duration in minutes
@@ -109,4 +111,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-

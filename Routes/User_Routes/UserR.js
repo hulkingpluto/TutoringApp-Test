@@ -4,9 +4,14 @@ import {
   getAllUsers,
   getUserById,
   modifyUser,
-  createUser, 
+  createUser,
+  loginUser, 
 } from '../../Controllers/User_Controller/UserC.js';
+import multer from 'multer';
+import User from '../../Models/User.js';
 
+
+const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
 
 
@@ -34,14 +39,51 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
-router.post('/', async (req, res) => {
-  const newUser = req.body;
+router.get('/:userId/profile-picture', async (req, res) => {
   try {
-    const user = await createUser(newUser);
-    res.status(201).json(user); 
+      const user = await User.findById(req.params.userId);
+
+      if (!user || !user.profilePicture || !user.profilePicture.data) {
+          // If no picture is found, send the default image
+          return res.sendFile(path.join(__dirname, '../Icons/default-profile.png')); // Adjust path if necessary
+      }
+
+      // Set the content type and send the image data
+      res.set('Content-Type', user.profilePicture.contentType);
+      res.send(user.profilePicture.data);
   } catch (error) {
+      res.status(500).json({ message: 'Error fetching profile picture', error: error.message });
+  }
+});
+
+
+router.post('/', upload.single('profilePicture'), async (req, res) => {
+  const { file } = req; // Get the uploaded file
+  const { role, email, password, fname, lname } = req.body; // Get other form fields
+  try {
+    // Create the user with the profile picture
+    const { user, token } = await createUser(
+      { role, email, password, fname, lname },
+      file // Pass the file data to the createUser function
+    );
+
+    // Optionally, you can also save the file as a resource if needed
+    // const resourcefile = await createResourcefile(file, user._id, []); // Assuming tags are optional
+
+    res.status(201).json({ user, token });
+  } catch (error) {
+    console.error('Error creating user:', error);
     res.status(500).json({ message: 'Error creating user', error: error.message });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const { user, token } = await loginUser(email, password);
+    res.status(200).json({  userId: user._id, token });
+  } catch (error) {
+    res.status(401).json({ message: 'Login failed', error: error.message });
   }
 });
 

@@ -1,7 +1,8 @@
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import dotenv from 'dotenv';
 import User from '../Models/User.js'; 
+import jwt from 'jsonwebtoken'; // For generating JWT tokens
 
 dotenv.config();
 
@@ -15,23 +16,29 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // Check if the user already exists in the database
         let user = await User.findOne({ email: profile._json.email });
         
-        
         if (!user) {
+          // Create a new user
           user = new User({
             id: profile.id,
             fname: profile.name.givenName,
             lname: profile.name.familyName,
             email: profile._json.email,
-            password:"defaultpassword@123",
-            role:"tutor", 
-          });
+            password: "defaultpassword@123",
+            role: "tutor", 
+          }); 
           await user.save();
         }
         
-        return done(null, user);
+        // Generate a JWT token for the user
+        const token = jwt.sign(
+          { id: user._id, email: user.email },
+          process.env.JWT_SECRET, 
+          { expiresIn: '100h' }
+        );
+        
+        return done(null, { user, token });
       } catch (error) {
         console.error('Error during Google OAuth:', error);
         return done(error, null);
@@ -40,14 +47,15 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+
+passport.serializeUser((data, done) => {
+  done(null, { id: data.user.id, token: data.token });
 });
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser(async (data, done) => {
   try {
-    const user = await User.findById(id);
-    done(null, user);
+    const user = await User.findById(data.id);
+    done(null, { user, token: data.token });
   } catch (error) {
     done(error, null);
   }
