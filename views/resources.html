@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="../frontC/ResourceController.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="Sidebar">
+                <ul>
+                    <li><a href="tutor_dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="availability.html">Availability</a></li>
+                    <li><a href="sessions.html">Upcoming sessions</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="reviews.html" id="reviews">Reviews</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Resources</h1>
+            </header>
+
+            <div class="resources">
+                <section class="links">
+                    <h2>Useful Links</h2>
+                    <ul>
+                        <li><a href="https://www.example.com" target="_blank">Example Website</a></li>
+                        <li><a href="https://www.anotherexample.com" target="_blank">Another Example Website</a></li>
+                    </ul>
+                </section>
+
+                <section class="books">
+                    <h2>Recommended Books</h2>
+                    <ul>
+                        <li><strong>Mathematics:</strong> <em>Introduction to Mathematical Thinking</em> by John D. Cook</li>
+                        <li><strong>Computer Science:</strong> <em>Introduction to the Theory of Computation</em> by Michael Sipser</li>
+                        <li><strong>Physics:</strong> <em>Fundamentals of Physics</em> by David Halliday</li>
+                    </ul>
+                </section>
+
+
+                <section class="resources-list">
+                    <h2>Resources List</h2>
+                    <ul>
+                        <li><a href="https://www.example.com" target="_blank">Resource 1</a></li>
+                        <li><a href="https://www.anotherexample.com" target="_blank">Resource 2</a></li>
+                    </ul>
+                </section>
+                
+                <section class="upload">
+                    <h2>Upload Your Resource</h2>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <label for="resource-name">Resource Name:</label>
+                        <input type="text" id="resource-name" name="resource-name" required>
+                        <br>
+                        <label for="resource-file">Upload File:</label>
+                        <input type="file" id="resource-file" name="resource-file" required>
+                        <br>
+                        <button type="submit">Upload Resource</button>
+                    </form>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>Campus Tutoring App</p>
+    </footer>
+
+    <script>
+        // Example JavaScript to handle form submission
+        document.getElementById('resource-file').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // You can handle the file upload here with JavaScript if needed
+            alert('Resource submitted successfully!');
+            // Optionally, you can reset the form or perform other actions here
+            this.reset();
+        });
+    </script>
+</body>
+</html>

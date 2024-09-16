@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   role: {
     type: String,
-    enum: ['student', 'tutor', 'admin'],
+    enum: ['student', 'tutor'],
     required: true,
   },
   email: {
@@ -27,9 +27,28 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   profilePicture: {
-    type: String,
-    default: '',
+  data: {
+    type: Buffer, 
   },
+  contentType: {
+    type: String, 
+  },
+  originalName: {
+    type: String, 
+  },
+},
+courses: {
+  type: [String],
+  default: [] 
+},
+subjects: {
+  type: [String],
+  default: [] 
+},
+qualifications: {
+  type: [String],
+  default: [] 
+},
   status: {
     type: Boolean,
     default: true,
@@ -41,6 +60,15 @@ userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  if (this.isNew) {
+    if (this.role === 'student') {
+        this.subjects = undefined;
+        this.qualifications = undefined;
+    } else if (this.role === 'tutor') {
+        this.courses = undefined;
+    }
+}
   next();
 });
 

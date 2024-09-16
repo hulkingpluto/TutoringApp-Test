@@ -4,6 +4,7 @@ import {
   getAllResources,
   getResourceById,
   modifyResource,
+  getUserResources,
   deleteResourceById,
 } from "../../Controllers/Resource_Controller/ResourceC.js"; 
 
@@ -42,6 +43,17 @@ router.post('/', async (req, res) => {
     res.status(201).json(resource); 
   } catch (error) {
     res.status(500).json({ message: 'Error creating resource', error: error.message });
+  }
+});
+
+
+
+router.get('/my-resources', async (req, res) => {
+  try {
+      const resources = await getUserResources(req, res);
+      res.json({ resources});
+  } catch (error) {
+      res.status(500).json({ message: 'Error fetching resources', error: error.message });
   }
 });
 

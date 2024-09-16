@@ -10,7 +10,8 @@ import resourcefileRoutes from './Routes/Resourcefile_Routes/ResourcefileR.js'
 import bookingRoutes from './Routes/Booking_Routes/BookingR.js';
 import notificationRoutes from './Routes/Notification_Routes/NotificationR.js';
 import virtualtutoringRoutes from './Routes/VirtualTutoring_Routes/VirtualTutoringR.js';
-import './Authentication/passport.js'; 
+import './Authentication/passport.js';
+import { authenticateToken} from './tokenmiddleware.js'; 
 
 const app = express();
 
@@ -54,7 +55,15 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.static(__dirname));
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,'dashboard.html'));
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.get('/',  (req, res) => {
+  res.sendFile(path.join(__dirname, 'dashboard.html'));
+});
+
+app.get('/tutor_dashboard.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'tutor_dashboard.html'));
 });
 
 

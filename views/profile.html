@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="module" src="../frontC/UserController.js" ></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="Sidebar">
+                <ul>
+                    <li><a href="tutor_dashboard.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="availability.html">Availability</a></li>
+                    <li><a href="sessions.html">Upcoming sessions</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="reviews.html" id="reviews">Reviews</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="upload-container">
+                <i class="fas fa-camera camera-icon"></i>
+                <input type="file" accept="image/*" onchange="previewImage(event)">
+            </header>
+            
+            <section class="dashboard">
+                <h2>Personal Details</h2>
+                <form class="profile-form" id="update">
+                    <label for="name_surname">Name and Surname:</label>
+                    <input type="text" id="name" name="name" value="John">
+
+                    <label for="cellphone">Cellphone:</label>
+                    <input type="number" id="cellnumber" name="cellnumber" value="0797029035">
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="john.doe@example.com">
+
+                    <label for="qualification">Qualification:</label>
+                    <input type="text" id="qualification" name="qualification" value="Bachelor of Science">
+
+                    <label for = "courses">Courses Tutoring</label>
+                    <input type="text" id="courses" name="courses" value="Software Design Project">
+
+                    <label for="updatepassword">Update Password:</label>
+                    <input type="password" id="password" name="password" value="@12344">
+
+                    <button type="submit" class="save-btn">Save</button>
+                </form>
+            </div>
+            </section>
+        </main>
+        <footer class = "footer">
+            <p>Campus Tutoring App</p>
+        </footer>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.createElement('img');
+                output.src = reader.result;
+                document.body.appendChild(output);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>

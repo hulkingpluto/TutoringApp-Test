@@ -14,6 +14,18 @@ export const createResource = async (payload) => {
 };
 
 
+export const getUserResources = async (req, res) => {
+  try {
+      const userId = req.user.id; 
+      const resources = await Resource.find({ uploadedBy: userId });
+      
+      return resources;
+  } catch (error) {
+      throw new Error({ message: 'Error fetching resources', error: error.message });
+  }
+};
+
+
 export const getAllResources = async () => {
   try {
     const resources = await Resource.find();

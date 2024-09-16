@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Tutoring Session</title>
     <link rel="stylesheet" href="styles.css"> <!-- Ensure you're linking the correct CSS file -->
-    <link rel="stylesheet" href="bookings.css"> <!-- Additional styles specifically for bookings page -->
+    <link rel="stylesheet" href="../Pagescss/bookings.css"> <!-- Additional styles specifically for bookings page -->
 </head>
 <body>
     <!-- Sidebar Section -->
@@ -13,12 +13,20 @@
         <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
         <ul>
             <li><a href="dashboard.html"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
-            <li><a href="tutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
-            <li><a href="schedule.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
+            <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
+            <li><a href="bookings.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
             <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
             <li><a href="reviews.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+            <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
         </ul>
     </div>
+    <script>
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            window.location.href = './login.html';
+        }
+    </script>
 
     <!-- Header Section -->
     <div class="header">
@@ -69,7 +77,7 @@
 
                 <!-- Status -->
                 <label for="status">Booking Status:</label>
-                <select disabled id="status" name="status" class="form-select" required>
+                <select id="status" name="status" class="form-select" required>
                     <option value="Scheduled">Scheduled</option>
                     <option value="Cancelled">Cancelled</option>
                     <option value="Completed">Completed</option>
@@ -87,7 +95,18 @@
         </div>
     </div>
 
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = './login.html';
+        } else {
+            document.body.style.display = 'block';
+        }
+    });
+</script>
     <script src="script.js"></script>
-    <script src="bookings.js"></script>
+    <script src="../Client-servers/bookings.js"></script>
 </body>
 </html>
