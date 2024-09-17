@@ -67,9 +67,6 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
       file // Pass the file data to the createUser function
     );
 
-    // Optionally, you can also save the file as a resource if needed
-    // const resourcefile = await createResourcefile(file, user._id, []); // Assuming tags are optional
-
     res.status(201).json({ user, token });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -80,12 +77,13 @@ router.post('/', upload.single('profilePicture'), async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { user, token } = await loginUser(email, password);
-    res.status(200).json({  userId: user._id, token });
+    const { user, token, role } = await loginUser(email, password);
+    res.status(200).json({ userId: user._id, token, role }); // Ensure role is included in the response
   } catch (error) {
     res.status(401).json({ message: 'Login failed', error: error.message });
   }
 });
+
 
 
 router.put('/:id', async (req, res) => {

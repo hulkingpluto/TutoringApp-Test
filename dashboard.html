@@ -22,7 +22,7 @@
             </label>
         </div>
         <ul class="account-link">
-            <a href="#" id="profile-link">
+            <a href="Profile.html" id="profile-link">
                 <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
                 <span id="profile-name">Default Name</span>
             </a>
@@ -35,19 +35,10 @@
             <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
             <li><a href="bookings.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
             <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
-            <li><a href="#"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+            <li><a href="./views/tutor_dashboard.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
             <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
         </ul>
     </div>
-
-    <script>
-        function handleLogout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            window.location.href = './login.html';
-        }
-    </script>
-    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const token = localStorage.getItem('token');
@@ -61,17 +52,17 @@
     <div class="main-content">
         <h2 class="welcome">Welcome back!</h2>
         <div class="dashboard-sections">
-            <button class="section" onclick="location.href='#'">
+            <button class="section" onclick="location.href='AvailableTutors.html'">
                 <img src="./Icons/tutor-dashboard.svg" alt="">
                 <h2>Available Tutors</h2>
                 <p>Find and connect with tutors.</p>
             </button>
-            <button class="section" onclick="location.href='./bookings.html'">
+            <button class="section" onclick="location.href='bookings.html'">
                 <img src="./Icons/schedule-dashboard.svg" alt="">
                 <h2>Schedule Sessions</h2>
                 <p>View and manage your tutoring schedule.</p>
             </button>
-            <button class="section" onclick="location.href='#'">
+            <button class="section" onclick="location.href='resource-sharing.html'">
                 <img src="./Icons/resources-dashboard.svg" alt="">
                 <h2>Study Resources</h2>
                 <p>Access study materials and resources.</p>
@@ -85,7 +76,7 @@
     </div>
     
 
-    <script src="../Client-servers/login.js"></script>
+    <script src="./Client-servers/login.js"></script>
     <script src="script.js"></script>
 </body>
 

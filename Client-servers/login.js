@@ -1,4 +1,3 @@
-
 // Redirect to Google OAuth route when Google login button is clicked
 function handleGoogleLogin() {
     window.location.href = '/auth/google';
@@ -6,13 +5,12 @@ function handleGoogleLogin() {
 
 document.addEventListener('DOMContentLoaded', handleAuthRedirect);
 
-
 function handleAuthRedirect() {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const userId = urlParams.get('userId');
+
     
-   
     if (token && userId) {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
@@ -53,8 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await response.json();
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('role', data.role); // Store role in localStorage
                     alert('Login successful!');
-                    window.location.href = './dashboard.html';
+
+                    // Redirect based on role
+                    if (data.role === 'tutor') {
+                        window.location.href = './views/tutor_dashboard.html'; // Redirect to tutor's dashboard
+                    } else if (data.role === 'student') {
+                        window.location.href = './dashboard.html'; // Redirect to student's dashboard
+                    } 
                 } else {
                     const errorData = await response.json();
                     alert('Error logging in: ' + errorData.message);

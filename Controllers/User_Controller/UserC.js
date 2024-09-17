@@ -43,7 +43,6 @@ export const loginUser = async (email, password) => {
       throw new Error('User not found');
     }
 
-    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new Error('Invalid credentials');
@@ -55,11 +54,12 @@ export const loginUser = async (email, password) => {
       { expiresIn: '100h' }
     );
 
-    return { user, token };
+    return { user, token, role: user.role };  
   } catch (error) {
     throw new Error(`Error logging in user: ${error.message}`);
   }
 };
+
 
 export const getAllUsers = async () => {
   try {

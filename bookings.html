@@ -9,7 +9,7 @@
 </head>
 <body>
     <!-- Sidebar Section -->
-    <div id="sidebar" class="sidebar collapsed"> <!-- Sidebar collapsed by default -->
+    <div id="sidebar" class="sidebar"> <!-- Sidebar collapsed by default -->
         <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
         <ul>
             <li><a href="dashboard.html"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
@@ -20,22 +20,17 @@
             <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
         </ul>
     </div>
-    <script>
-        function handleLogout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            window.location.href = './login.html';
-        }
-    </script>
+    
 
     <!-- Header Section -->
     <div class="header">
-        <img class="logo" src="./Icons/logo.svg" alt="Logo">
+        <img class="logo" src="./Icons/logo.svg" alt="">
         <input class="search" type="text" placeholder="Search">
         <ul>
-            <li><a href="#"><img src="./Icons/notifications.svg" alt="Notifications"></a></li>
-            <li><a href="#"><img src="./Icons/chat.svg" alt="Chat"></a></li>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
         </ul>
+        <!-- Dark mode toggle switch -->
         <div class="dark-mode-toggle">
             <label for="dark-mode-switch" class="switch">
                 <input type="checkbox" id="dark-mode-switch">
@@ -43,10 +38,14 @@
             </label>
         </div>
         <ul class="account-link">
-            <a href="#"><img src="./Icons/Hamoudy.jpeg" alt="Hamoudy">Hamoudy</a>
+            <a href="#" id="profile-link">
+                <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
+                <span id="profile-name">Default Name</span>
+            </a>
         </ul>
     </div>
 
+    
     <!-- Main Content Section -->
     <div class="main-content">
         <h1 class="title-booking">Book a Tutoring Session</h1>
@@ -107,6 +106,7 @@
     });
 </script>
     <script src="script.js"></script>
-    <script src="../Client-servers/bookings.js"></script>
+    <script src="./Client-servers/login.js"></script>
+    <script src="./Client-servers/bookings.js"></script>
 </body>
 </html>

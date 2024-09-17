@@ -918,6 +918,211 @@ input:checked + .slider:before {
         margin-right: 0;
     }
 
+    .upcoming-lessons {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .lesson-box {
+        background-color: #fff;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+        text-align: center;
+    }
+    
+    .lesson-box:hover {
+        transform: translateY(-5px);
+    }
+    
+    .lesson-box h3 {
+        font-size: 1.4em;
+        margin-bottom: 10px;
+    }
+    
+    .lesson-box p {
+        font-size: 1.1em;
+        margin: 5px 0;
+    }
+    
+    .welcome {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    
+
     /* Ensure any other elements are adjusted to fit smaller screens */
 }
 
+
+
+.tutor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start; /* Ensures the cards are aligned properly */
+}
+
+/* Flexbox for each tutor card */
+.tutor-card {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Set a fixed width for the card */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tutor-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the profile picture in a circle */
+.tutor-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px;
+}
+
+.tutor-details {
+    padding: 10px 20px;
+    flex-grow: 1;
+}
+
+.tutor-details h3 {
+    margin: 0 0 10px;
+}
+
+.tutor-details p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+/* Existing styles... */
+
+/* Tutor details modal styles */
+.tutor-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.tutor-details-content {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+}
+
+.tutor-details-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tutor-profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.tutor-details-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.tutor-availability {
+    font-size: 18px;
+}
+
+.availability-time {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+/* Hide the modal by default */
+.hidden {
+    display: none;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Adjust form input widths */
+.form-group {
+    margin-bottom: 15px;
+    width: 100%; /* Ensure form-group spans the entire width */
+    max-width: 600px; /* Set a max width to control input size */
+    margin: 0 auto; /* Center the form */
+}
+
+
+form input {
+    width: 100%;
+    padding: 10px; /* Increase padding for better user experience */
+    font-size: 16px; /* Increase font size */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+.profile-picture {
+    border-radius: 50%;
+    width: 150px; /* Adjust size */
+    height: 150px; /* Adjust size */
+    object-fit: cover; /* Make sure the image fits within the circle */
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Centering the form */
+form {
+    text-align: center; /* Center align the form */
+}
+
+/* Update button */
+button[type="submit"] {
+    background-color: #62b1f6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #4a9ed6;
+}

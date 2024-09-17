@@ -28,6 +28,19 @@ function adjustResourceSectionWidth() {
 // Get the dark mode toggle switch
 const darkModeSwitch = document.getElementById('dark-mode-switch');
 
+function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    window.location.href = './login.html';
+}
+
+function handleLogoutt() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    window.location.href = '../login.html';
+}
 // Function to toggle dark mode
 function toggleDarkMode() {
     const elementsToToggle = [

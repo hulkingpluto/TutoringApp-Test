@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collapsible Sidebar with Dark Mode</title>
+    <title>Available Tutors</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,8 +11,8 @@
         <img class="logo" src="./Icons/logo.svg" alt="">
         <input class="search" type="text" placeholder="Search">
         <ul>
-            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
-            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="Notifications"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="Chat"></a></li>
         </ul>
         <!-- Dark mode toggle switch -->
         <div class="dark-mode-toggle">
@@ -29,7 +29,7 @@
         </ul>
     </div>
     <div id="sidebar" class="sidebar">
-        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt=""></button>
+        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt="Toggle Sidebar"></button>
         <ul>
             <li><a href="dashboard.html"><img src="Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
             <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
@@ -40,14 +40,13 @@
         </ul>
     </div>
 
-    <script>
-        function handleLogout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            window.location.href = './login.html';
-        }
-    </script>
-    
+    <div class="main-content">
+        <h2 class="welcome">Available Tutors</h2>
+        <div id="tutor-list" class="dashboard-sections tutor-list">
+            <!-- Tutors will be populated here -->
+        </div>
+    </div>
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const token = localStorage.getItem('token');
@@ -58,18 +57,8 @@
         }
     });
     </script>
-   <body>
-    <div class="main-content">
-        <h2 class="welcome">Available Tutors</h2>
-        <div id="tutor-list" class="dashboard-sections">
-            <!-- Tutors will be populated here -->
-        </div>
-    </div>
-
-    <script src="tutors.js"></script> <!-- Link to your JavaScript file -->
-
-    <script src="../Client-servers/login.js"></script>
+    <script src="./Client-servers/Tutors.js"></script> <!-- Updated JavaScript file name -->
+    <script src="./Client-servers/login.js"></script>
     <script src="script.js"></script>
 </body>
-
 </html>
