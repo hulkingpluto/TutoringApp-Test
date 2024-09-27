@@ -17,9 +17,9 @@ body {
     
 }
 
-body {
+/* body {
     display: none;
-}
+} */
 
 .header {
     background: linear-gradient(90deg, #62b1f6, #007acc);
