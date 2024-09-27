@@ -9,9 +9,8 @@ class AppHeader extends HTMLElement {
           <input class="search" type="text" placeholder="Search" >
   
           <ul ">
-              <li ><a href="#"><img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
-              <li ><a href="#"><img src="./Icons/chat.svg" alt="Chat" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
-          </ul>
+              <li ><a href="./notifications.html"><img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
+             </ul>
   
           <ul class="account-link">
               <a href="Profile.html" id="profile-link" >
@@ -49,14 +48,15 @@ class AppHeader extends HTMLElement {
         localStorage.removeItem('userId');
         window.location.href = './login.html';
       });
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = './login.html';
-        } else {
-            document.body.style.display = 'block';
-        }
-    });
+
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const token = localStorage.getItem('token');
+    //     if (!token) {
+    //         window.location.href = './login.html';
+    //     } else {
+    //         document.body.style.display = 'block';
+    //     }
+    // });
   
       // Handle sidebar toggle
       const sidebar = this.querySelector('#sidebar');
