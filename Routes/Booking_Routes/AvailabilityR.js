@@ -4,12 +4,40 @@ const User = require('../../Models/User'); // Ensure the User model is imported
 const Availability = require('../models/availability');
 
 // Fetch all tutors with their availability
-router.get('/tutors', async (req, res) => {
+router.get('/availability/:userId', async (req, res) => {
   try {
-    const tutors = await User.find({ role: 'tutor' }).populate('availability');
-    res.status(200).json(tutors);
+      const { userId } = req.params;
+      const availability = await Availability.findOne({ user: userId });
+      res.json(availability);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching tutors', error: error.message });
+      res.status(500).json({ message: error.message });
+  }
+});
+
+router.post('/availability/:userId', async (req, res) => {
+  try {
+      const { userId } = req.params;
+      const availabilityData = req.body;
+
+      // Check if availability already exists
+      let availability = await Availability.findOne({ user: userId });
+
+      if (availability) {
+          // Update existing availability
+          availability.slots = availabilityData.slots;
+      } else {
+          // Create new availability
+          availability = new Availability({
+              user: userId,
+              date: availabilityData.date,
+              slots: availabilityData.slots
+          });
+      }
+
+      await availability.save();
+      res.status(200).json(availability);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
   }
 });
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Details</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Your main stylesheet -->
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="./Icons/logo.svg" alt="">
+        <input class="search" type="text" placeholder="Search">
+        <ul>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
+        </ul>
+        <!-- Dark mode toggle switch -->
+        <div class="dark-mode-toggle">
+            <label for="dark-mode-switch" class="switch">
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <ul class="account-link">
+            <a href="#" id="profile-link">
+                <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
+                <span id="profile-name">Default Name</span>
+            </a>
+        </ul>
+    </div>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" >
+            <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt=""></button>
+            <ul>
+                <li><a href="#"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
+                <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
+                <li><a href="bookings.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
+                <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
+                <li><a href="./views/tutor_dashboard.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
+                <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <header>
+                <h1>Tutor Details</h1>
+            </header>
+
+            <!-- Tutor Details Section -->
+            <section id="tutor-details" class="hidden">
+                <div class="tutor-details-content">
+                    <button class="close-button"  onclick="closeTutorDetails()">×</button>
+                    <div class="tutor-details-header">
+                        <img id="tutor-profile-picture" src="" alt="Profile Picture" class="tutor-profile-picture">
+                        <h2 id="tutor-name"></h2>
+                    </div>
+                    <div id="tutor-availability" class="tutor-availability">
+                        <!-- Availability times will be inserted here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <!-- Footer content here -->
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = './login.html';
+            } else {
+                document.body.style.display = 'block';
+            }
+        });
+        </script>
+
+    <script src="./Client-servers/Tutors.js"></script>
+    <script src="./Client-servers/login.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

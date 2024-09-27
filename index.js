@@ -62,11 +62,10 @@ app.get('/',  (req, res) => {
   res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
+
 app.get('/tutor_dashboard.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'tutor_dashboard.html'));
 });
-
-
 
 
 const port = process.env.PORT || 3000;

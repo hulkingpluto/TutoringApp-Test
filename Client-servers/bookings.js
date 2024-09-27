@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); // Prevent default form submission
 
         // Gather form data
-        const student = "66d3c6bea7133bbc3a897ec1";
+        const student =localStorage.getItem('userId'); 
         const tutor = document.getElementById('tutor').value;
         const subject=document.getElementById('subject').value;
         const sessionDate = document.getElementById('sessionDate').value;

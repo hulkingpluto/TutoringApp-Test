@@ -19,12 +19,6 @@
             <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
         </ul>
     </div>
-    <script>
-        function handleLogout() {
-            localStorage.removeItem('token');
-            window.location.href = './login.html';
-        }
-    </script>
 
 
     
@@ -40,13 +34,14 @@
 </script>
 
     <!-- Header Section -->
-    <div class="header">
-        <img class="logo" src="./Icons/logo.svg" alt="Logo">
+    <div class="header"></div>
+        <img class="logo" src="./Icons/logo.svg" alt="">
         <input class="search" type="text" placeholder="Search">
         <ul>
-            <li><a href="#"><img src="./Icons/notifications.svg" alt="Notifications"></a></li>
-            <li><a href="#"><img src="./Icons/chat.svg" alt="Chat"></a></li>
+            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
+            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
         </ul>
+        <!-- Dark mode toggle switch -->
         <div class="dark-mode-toggle">
             <label for="dark-mode-switch" class="switch">
                 <input type="checkbox" id="dark-mode-switch">
@@ -54,7 +49,10 @@
             </label>
         </div>
         <ul class="account-link">
-            <a href="#"><img src="./Icons/Hamoudy.jpeg" alt="Hamoudy">Hamoudy</a>
+            <a href="#" id="profile-link">
+                <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
+                <span id="profile-name">Default Name</span>
+            </a>
         </ul>
     </div>
 
@@ -126,6 +124,7 @@
         </div>
     </div>
 
+    <script src="./Client-servers/login.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

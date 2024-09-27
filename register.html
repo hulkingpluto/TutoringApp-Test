@@ -78,10 +78,10 @@
                         <input type="text" id="subjects" name="subjects[]" placeholder="Enter a subject you teach">
                         <span class="add-more" id="add-more-subjects">+ Add more</span>
                     </div>
-                    <div class="input-group">
-                        <label for="qualification">Qualification</label>
-                        <input type="text" id="qualification" name="qualification">
-                        <span class="add-more" id="add-more-subjects">+ Add more</span>
+                    <div class="input-group" id="qualification-group">
+                        <label for="qualifications">Qualification</label>
+                        <input type="text" id="qualification" name="qualification[]" placeholder="Enter a qualification">
+                        <span class="add-more" id="add-more-qualifications">+ Add more</span>
                     </div>
                 </div>
 
@@ -133,7 +133,7 @@
                 tutorFields.querySelector('input[name="fname"]').setAttribute('required', 'required');
                 tutorFields.querySelector('input[name="lname"]').setAttribute('required', 'required');
                 tutorFields.querySelector('input[name="subjects[]"').setAttribute('required', 'required');
-                tutorFields.querySelector('input[name="qualification"]').setAttribute('required', 'required');
+                tutorFields.querySelector('input[name="qualification[]"]').setAttribute('required', 'required');
                 commonFields.classList.remove('hidden');
                 submitButton.classList.remove('hidden');
             } 
@@ -160,7 +160,17 @@
             newSubject.classList.add('input-group');
             subjectsGroup.appendChild(newSubject);
         });
+        // Add more qualifications for tutors
+        document.getElementById('add-more-qualifications').addEventListener('click', function () {
+            const subjectsGroup = document.getElementById('qualification-group');
+            const newSubject = document.createElement('input');
+            newSubject.type = 'text';
+            newSubject.name = 'qualification[]';
+            newSubject.placeholder = 'Enter a qualification';
+            newSubject.classList.add('input-group');
+            subjectsGroup.appendChild(newSubject);
+        });
     </script>
-    <script src="../Client-servers/register.js"></script>
+    <script src="./Client-servers/register.js"></script>
 </body>
 </html>

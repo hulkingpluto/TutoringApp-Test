@@ -20,6 +20,7 @@
                     <li><a href="resources.html">Resources</a></li>
                     <li><a href="reviews.html" id="reviews">Reviews</a></li>
                     <li><a href="settings.html">Settings</a></li>
+                    <li><a href="#" onclick="handleLogoutt()"><span>Logout</span></a></li>
                 </ul>
             </nav>
         </aside>
@@ -48,17 +49,30 @@
                     </ul>
                 </section>
 
-
-                <section class="resources-list">
-                    <h2>Resources List</h2>
-                    <ul>
-                        <li><a href="https://www.example.com" target="_blank">Resource 1</a></li>
-                        <li><a href="https://www.anotherexample.com" target="_blank">Resource 2</a></li>
-                    </ul>
-                </section>
+                <!-- Resources List Section -->
+                <div class="resource-list">
+                    <h3>Available Resources</h3>
+                    <ul></ul>
+                </div>
                 
                 <section class="upload">
                     <h2>Upload Your Resource</h2>
+                    <form class="upload-url-form" enctype="multipart/form-data">
+                        <label for="urlName">Resource Name:</label>
+                        <input type="text" id="urlName" name="urlName" required>
+                        <br>
+                        <label for="urlDescription">Description:</label>
+                        <input type="text" id="urlDescription" name="urlDescription" required>
+                        <br>
+                        <label for="url">URL:</label>
+                        <input type="url" id="url" name="url" required>
+                        <br>
+                        <button type="submit">Submit URL</button>
+                    </form>
+                </section>
+
+                <section class="upload">
+                    <h2>Upload Your File</h2>
                     <form id="uploadForm" enctype="multipart/form-data">
                         <label for="resource-name">Resource Name:</label>
                         <input type="text" id="resource-name" name="resource-name" required>
@@ -74,20 +88,9 @@
         </main>
     </div>
 
-    <footer class="footer">
-        <p>Campus Tutoring App</p>
-    </footer>
 
-    <script>
-        // Example JavaScript to handle form submission
-        document.getElementById('resource-file').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-            
-            // You can handle the file upload here with JavaScript if needed
-            alert('Resource submitted successfully!');
-            // Optionally, you can reset the form or perform other actions here
-            this.reset();
-        });
-    </script>
+
+    <script src="../Client-servers/login.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
