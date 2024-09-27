@@ -49,6 +49,42 @@ const loadTutors = async () => {
     renderAvailableTutors(availableTutors);
 };
 
+//look here
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = './login.html';
+        return;
+    }
+
+    // Get selected tutor and subject from localStorage
+    const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
+    const selectedSubject = localStorage.getItem('selectedSubject');
+
+    if (selectedTutor) {
+        // Populate the tutor select element
+        const tutorSelect = document.getElementById('tutor');
+        tutorSelect.value = selectedTutor._id; // Assuming _id is used as the value for the select
+        
+        // Ensure that the tutor dropdown reflects the selected tutor's name
+        const tutorOptions = tutorSelect.options;
+        for (let i = 0; i < tutorOptions.length; i++) {
+            if (tutorOptions[i].value === selectedTutor._id) {
+                tutorOptions[i].selected = true; // Set the selected option
+                break; // Exit loop once the correct option is found
+            }
+        }
+
+        // Populate the subject input
+        const subjectInput = document.getElementById('subject');
+        subjectInput.value = selectedSubject;
+    } else {
+        console.error('No tutor selected');
+    }
+});
+
+
+//end here
 document.addEventListener('DOMContentLoaded', loadTutors);
 
 //Booking a schedule

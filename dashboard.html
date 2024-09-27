@@ -7,48 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="header">
-        <img class="logo" src="./Icons/logo.svg" alt="">
-        <input class="search" type="text" placeholder="Search">
-        <ul>
-            <li><a href="#"><img src="./Icons/notifications.svg" alt="ping"></a></li>
-            <li><a href="#"><img src="./Icons/chat.svg" alt="ping"></a></li>
-        </ul>
-        <!-- Dark mode toggle switch -->
-        <div class="dark-mode-toggle">
-            <label for="dark-mode-switch" class="switch">
-                <input type="checkbox" id="dark-mode-switch">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <ul class="account-link">
-            <a href="Profile.html" id="profile-link">
-                <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
-                <span id="profile-name">Default Name</span>
-            </a>
-        </ul>
-    </div>
-    <div id="sidebar" class="sidebar">
-        <button id="toggleButton" class="toggle-button"><img src="./Icons/arrow-left-svgrepo-com.svg" alt=""></button>
-        <ul>
-            <li><a href="#"><img src="./Icons/dashboard-svgrepo-com.svg" alt="Dashboard"> <span>Dashboard</span></a></li>
-            <li><a href="AvailableTutors.html"><img src="./Icons/people-svgrepo-com.svg" alt="Tutors"> <span>Tutors</span></a></li>
-            <li><a href="bookings.html"><img src="./Icons/schedule-svgrepo-com.svg" alt="Schedule"> <span>Schedule</span></a></li>
-            <li><a href="resource-sharing.html"><img src="./Icons/resources-svgrepo-com.svg" alt="Resources"> <span>Resources</span></a></li>
-            <li><a href="./views/tutor_dashboard.html"><img src="./Icons/review-screen-svgrepo-com.svg" alt="Review"> <span>Review</span></a></li>
-            <li><a href="#" onclick="handleLogout()"><img src="./Icons/logout-icon.svg" alt="Logout"><span>Logout</span></a></li>
-        </ul>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = './login.html';
-        } else {
-            document.body.style.display = 'block';
-        }
-    });
-    </script>
+
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
     <div class="main-content">
         <h2 class="welcome">Welcome back!</h2>
         <div class="dashboard-sections">
@@ -76,7 +38,8 @@
     </div>
     
 
-    <script src="./Client-servers/login.js"></script>
+    <script src="./headerFooter.js"></script>
+    <script src="./Client-servers/login.js"></script> 
     <script src="script.js"></script>
 </body>
 

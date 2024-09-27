@@ -84,24 +84,35 @@ export const getUserById = async (id) => {
 };
 
 
-export const modifyUser = async (id, payload) => {
+export const modifyUser = async (id, payload, file) => {
   try {
-    const user = await User.findById(id); 
+    const user = await User.findById(id);
     if (!user) {
       throw new Error('User not found');
     }
 
-   
+    // If a file is provided, update the profile picture
+    if (file) {
+      user.profilePicture = {
+        data: file.buffer,
+        contentType: file.mimetype,
+        originalName: file.originalname,
+      };
+    }
+
+    // Update other fields from payload
     Object.keys(payload).forEach((key) => {
       user[key] = payload[key];
     });
 
-    const updatedUser = await user.save(); 
-    return updatedUser; 
+    // Save the updated user
+    const updatedUser = await user.save();
+    return updatedUser;
   } catch (error) {
     throw new Error(`Error updating user: ${error.message}`);
   }
 };
+
 
 
 export const deleteUserById = async (id) => {

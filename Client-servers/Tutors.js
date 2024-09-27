@@ -22,8 +22,12 @@ async function fetchTutors() {
 
         if (response.ok) {
             const data = await response.json();
+
+            // Filter tutors based on role
             const tutors = data.filter(user => user.role === 'tutor');
-            displayTutors(tutors);
+
+            // Display the tutors
+            displayTutors(tutors, token);
         } else {
             console.error('Failed to fetch tutors');
         }
@@ -32,21 +36,33 @@ async function fetchTutors() {
     }
 }
 
-async function displayTutors(tutors) {
+async function displayTutors(tutors, token) {
     const tutorList = document.getElementById('tutor-list');
     const defaultProfilePicture = './Icons/profile2.jpg'; // Path to the default profile picture
 
-    tutors.forEach(tutor => {
+    for (const tutor of tutors) {
         const tutorElement = document.createElement('div');
         tutorElement.className = 'tutor-card';
-        tutorElement.dataset.tutorId = tutor._id; // Store tutor ID for later use
 
         let profilePicture = defaultProfilePicture;
 
-        if (tutor.profilePicture) {
-            profilePicture = tutor.profilePicture; // Assuming profilePicture is a URL or path
+        // Attempt to fetch the tutor's profile picture
+        try {
+            const imageResponse = await fetch(`http://localhost:3000/api/users/${tutor._id}/profile-picture`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (imageResponse.ok) {
+                const blob = await imageResponse.blob();
+                profilePicture = URL.createObjectURL(blob); // Create a URL from the blob
+            }
+        } catch (error) {
+            console.error(`Error fetching profile picture for ${tutor.fname} ${tutor.lname}:`, error);
         }
 
+        // Render tutor details
         tutorElement.innerHTML = `
             <img src="${profilePicture}" alt="${tutor.fname} ${tutor.lname}" class="tutor-image">
             <div class="tutor-details">
@@ -56,70 +72,64 @@ async function displayTutors(tutors) {
             </div>
         `;
 
+        // Add click event listener to open the tutor profile page
         tutorElement.addEventListener('click', () => {
-            window.location.href = `TutorDetails.html?tutorId=${tutor._id}`;
+            // Save selected tutor data to localStorage
+            localStorage.setItem('selectedTutor', JSON.stringify(tutor));
+
+            // Navigate to the tutor profile page
+            window.location.href = './TutorDetails.html';
         });
 
         tutorList.appendChild(tutorElement);
-    });
+    }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tutorId = urlParams.get('tutorId');
+// TutorDetails.js
+document.addEventListener('DOMContentLoaded', async function() {
     const token = localStorage.getItem('token');
+    const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
 
-    if (!tutorId || !token) {
-        console.error('No tutor ID or token found');
+    if (!token || !selectedTutor) {
+        window.location.href = './login.html';
         return;
     }
 
+    // Populate tutor details on the profile page
+    document.getElementById('profile-name').textContent = `${selectedTutor.fname} ${selectedTutor.lname}`;
+    document.getElementById('profile-subjects').innerHTML = `<strong>Subjects:</strong> ${selectedTutor.subjects.join(', ')}`;
+    document.getElementById('profile-qualifications').innerHTML = `<strong>Qualifications:</strong> ${selectedTutor.qualifications.join(', ')}`;
+    document.getElementById('profile-about').textContent = selectedTutor.about || 'No details available.';
+
+    // Fetch and display tutor's profile picture
+    const profilePictureElement = document.getElementById('profile-picture');
+    const defaultProfilePicture = './Icons/profile2.jpg';
+
     try {
-        const response = await fetch(`http://localhost:3000/api/users/${tutorId}`, {
+        const imageResponse = await fetch(`http://localhost:3000/api/users/${selectedTutor._id}/profile-picture`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
         });
 
-        if (response.ok) {
-            const tutor = await response.json();
-            const { fname, lname, profilePicture } = tutor;
-
-            const profilePictureElement = document.getElementById('tutor-profile-picture');
-            const tutorNameElement = document.getElementById('tutor-name');
-            const tutorAvailabilityElement = document.getElementById('tutor-availability');
-
-            // Use the profile picture or default if not available
-            profilePictureElement.src = profilePicture ? profilePicture : './Icons/profile2.jpg';
-            tutorNameElement.textContent = `${fname} ${lname}`;
-
-            // Fetch and display availability times
-            const availabilityResponse = await fetch(`http://localhost:3000/api/users/${tutorId}/availability`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-
-            if (availabilityResponse.ok) {
-                const availability = await availabilityResponse.json();
-                tutorAvailabilityElement.innerHTML = availability.map(time => `
-                    <div class="availability-time">${time}</div>
-                `).join('');
-            } else {
-                console.error('Failed to fetch availability times');
-            }
-
-            document.getElementById('tutor-details').classList.remove('hidden');
+        if (imageResponse.ok) {
+            const blob = await imageResponse.blob();
+            profilePictureElement.src = URL.createObjectURL(blob);
         } else {
-            console.error('Failed to fetch tutor data');
-            window.location.href = './login.html'; // Redirect to login if tutor data fetch fails
+            profilePictureElement.src = defaultProfilePicture;
         }
     } catch (error) {
-        console.error('Error fetching tutor details:', error);
+        console.error('Error fetching tutor profile picture:', error);
+        profilePictureElement.src = defaultProfilePicture;
     }
-});
 
-function closeTutorDetails() {
-    document.getElementById('tutor-details').classList.add('hidden');
-    window.location.href = './AvailableTutors.html';
-}
+    // Add event listener to the "Book a Session" button
+    document.getElementById('book-session').addEventListener('click', () => {
+        // Save selected tutor name and subject to localStorage
+        localStorage.setItem('selectedTutor', JSON.stringify(selectedTutor));
+        localStorage.setItem('selectedSubject', selectedTutor.subjects[0]); // Assuming you want the first subject
+    
+        // Navigate to booking page
+        window.location.href = './bookings.html';
+    });
+});

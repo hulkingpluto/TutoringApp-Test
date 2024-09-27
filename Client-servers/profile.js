@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const profileForm = document.getElementById('profile-form');
     const profilePictureUpload = document.getElementById('profile-picture-upload');
     const profilePictureElement = document.getElementById('profile-picture');
-    
+
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
@@ -33,8 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('courses').value = courses || '';
 
             console.log('Profile data loaded:', { fname, lname, email, role, courses });
-
-            
         } else {
             console.error('Failed to fetch user data');
             window.location.href = './login.html'; // Redirect if fetch fails
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Update profile form
+    // Update profile form with FormData
     profileForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -72,32 +70,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         const courses = document.getElementById('courses').value;
         const profilePictureFile = profilePictureUpload.files[0];
 
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('fname', fname);
+        formData.append('lname', lname);
+        formData.append('email', email);
+        formData.append('password', password); // Optional
+        formData.append('courses', courses);
 
-        const profileData = {
-            email: email,
-            password: password,
-            fname:fname,
-            lname:lname,
-            courses:courses,
-        };
-        
-        console.log('Submitting profile update with data:', { fname, lname, email, password, courses, profilePictureFile: profilePictureFile?.name });
+        if (profilePictureFile) {
+            formData.append('profilePicture', profilePictureFile); // Append profile picture if uploaded
+        }
 
         try {
             const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
                 method: 'PUT',
                 headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(profileData),
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: formData, // Use formData instead of JSON
             });
 
             if (response.ok) {
                 alert('Profile updated successfully!');
                 console.log('Profile updated successfully');
-                
-               
             } else {
                 const errorData = await response.json();
                 alert('Error updating profile: ' + errorData.message);

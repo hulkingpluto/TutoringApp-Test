@@ -17,7 +17,11 @@
             color: #ffffff;
             margin-left: 10px;
         }
-       
+        .remove {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -132,7 +136,7 @@
                 tutorFields.classList.remove('hidden');
                 tutorFields.querySelector('input[name="fname"]').setAttribute('required', 'required');
                 tutorFields.querySelector('input[name="lname"]').setAttribute('required', 'required');
-                tutorFields.querySelector('input[name="subjects[]"').setAttribute('required', 'required');
+                tutorFields.querySelector('input[name="subjects[]"]').setAttribute('required', 'required');
                 tutorFields.querySelector('input[name="qualification[]"]').setAttribute('required', 'required');
                 commonFields.classList.remove('hidden');
                 submitButton.classList.remove('hidden');
@@ -142,34 +146,44 @@
         // Add more courses for students
         document.getElementById('add-more-courses').addEventListener('click', function () {
             const coursesGroup = document.getElementById('courses-group');
-            const newCourse = document.createElement('input');
-            newCourse.type = 'text';
-            newCourse.name = 'courses[]';
-            newCourse.placeholder = 'Enter another course';
+            const newCourse = document.createElement('div');
             newCourse.classList.add('input-group');
+            newCourse.innerHTML = `
+                <input type="text" name="courses[]" placeholder="Enter another course">
+                <span class="remove" onclick="removeField(this)">- Remove</span>
+            `;
             coursesGroup.appendChild(newCourse);
         });
 
         // Add more subjects for tutors
         document.getElementById('add-more-subjects').addEventListener('click', function () {
             const subjectsGroup = document.getElementById('subjects-group');
-            const newSubject = document.createElement('input');
-            newSubject.type = 'text';
-            newSubject.name = 'subjects[]';
-            newSubject.placeholder = 'Enter another subject';
+            const newSubject = document.createElement('div');
             newSubject.classList.add('input-group');
+            newSubject.innerHTML = `
+                <input type="text" name="subjects[]" placeholder="Enter another subject">
+                <span class="remove" onclick="removeField(this)">- Remove</span>
+            `;
             subjectsGroup.appendChild(newSubject);
         });
+
         // Add more qualifications for tutors
         document.getElementById('add-more-qualifications').addEventListener('click', function () {
-            const subjectsGroup = document.getElementById('qualification-group');
-            const newSubject = document.createElement('input');
-            newSubject.type = 'text';
-            newSubject.name = 'qualification[]';
-            newSubject.placeholder = 'Enter a qualification';
-            newSubject.classList.add('input-group');
-            subjectsGroup.appendChild(newSubject);
+            const qualificationGroup = document.getElementById('qualification-group');
+            const newQualification = document.createElement('div');
+            newQualification.classList.add('input-group');
+            newQualification.innerHTML = `
+                <input type="text" name="qualification[]" placeholder="Enter another qualification">
+                <span class="remove" onclick="removeField(this)">- Remove</span>
+            `;
+            qualificationGroup.appendChild(newQualification);
         });
+
+        // Remove a field
+        function removeField(element) {
+            const inputGroup = element.parentElement;
+            inputGroup.parentElement.removeChild(inputGroup);
+        }
     </script>
     <script src="./Client-servers/register.js"></script>
 </body>
