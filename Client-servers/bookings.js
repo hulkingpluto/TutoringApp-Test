@@ -1,16 +1,3 @@
-// Toggle visibility of cancellation reason field
-document.getElementById('status').addEventListener('change', function() {
-    const status = this.value;
-    const cancellationReasonContainer = document.getElementById('cancellationReasonContainer');
-    if (status === 'Cancelled') {
-        cancellationReasonContainer.style.display = 'block';
-        document.getElementById('cancellationReason').setAttribute('required', 'true');
-    } else {
-        cancellationReasonContainer.style.display = 'none';
-        document.getElementById('cancellationReason').removeAttribute('required');
-    }
-});
-
 // Fetch the tutors from the database
 const fetchTutors = async (url) => {
     try {
@@ -21,7 +8,7 @@ const fetchTutors = async (url) => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error(`Error fetching from ${url}:`, error);
+        console.error(`Error fetching from ${url}:, error`);
         return [];
     }
 };
@@ -29,7 +16,7 @@ const fetchTutors = async (url) => {
 // Render the available tutors into the select dropdown
 const renderAvailableTutors = (tutors) => {
     const tutorsSelect = document.getElementById('tutor');
-    tutorsSelect.innerHTML = ''; 
+    tutorsSelect.innerHTML = ''; // Clear the previous options
 
     const placeholderOption = document.createElement('option');
     placeholderOption.textContent = 'Select a Tutor';
@@ -44,53 +31,37 @@ const renderAvailableTutors = (tutors) => {
     });
 };
 
+// Load tutors and set the selected tutor from localStorage
 const loadTutors = async () => {
     const availableTutors = await fetchTutors('http://localhost:3000/api/users');
     renderAvailableTutors(availableTutors);
-};
 
-//look here
-document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = './login.html';
-        return;
-    }
-
-    // Get selected tutor and subject from localStorage
+    // Get the selected tutor from localStorage
     const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
-    const selectedSubject = localStorage.getItem('selectedSubject');
 
+    // Check if a tutor was previously selected
     if (selectedTutor) {
         // Populate the tutor select element
         const tutorSelect = document.getElementById('tutor');
-        tutorSelect.value = selectedTutor._id; // Assuming _id is used as the value for the select
         
-        // Ensure that the tutor dropdown reflects the selected tutor's name
-        const tutorOptions = tutorSelect.options;
-        for (let i = 0; i < tutorOptions.length; i++) {
-            if (tutorOptions[i].value === selectedTutor._id) {
-                tutorOptions[i].selected = true; // Set the selected option
-                break; // Exit loop once the correct option is found
+        // Iterate through the options to find the one that matches the selected tutor's ID
+        for (let option of tutorSelect.options) {
+            if (option.value === selectedTutor._id) {
+                option.selected = true; // Set the correct option as selected
+                break;
             }
         }
 
-        // Populate the subject input
+        // Populate the subject field with the selected tutor's subject
         const subjectInput = document.getElementById('subject');
-        subjectInput.value = selectedSubject;
-    } else {
-        console.error('No tutor selected');
+        subjectInput.value = selectedTutor.subjects[0]; // Assuming you're using the first subject
     }
-});
+};
 
-
-//end here
-document.addEventListener('DOMContentLoaded', loadTutors);
-
-//Booking a schedule
-document.addEventListener('DOMContentLoaded', () => {
+// Booking a schedule
+document.addEventListener('DOMContentLoaded', async () => {
     // Load tutors on page load
-    loadTutors();
+    await loadTutors();
 
     // Handle form submission
     const bookingForm = document.getElementById('bookingForm');
@@ -99,9 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault(); // Prevent default form submission
 
         // Gather form data
-        const student =localStorage.getItem('userId'); 
+        const student = localStorage.getItem('userId'); 
         const tutor = document.getElementById('tutor').value;
-        const subject=document.getElementById('subject').value;
+        const subject = document.getElementById('subject').value;
         const sessionDate = document.getElementById('sessionDate').value;
         const sessionTime = document.getElementById('sessionTime').value;
         const duration = document.getElementById('duration').value;
@@ -111,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bookingData = {
             student: student,
             tutor: tutor,
-            subject:subject,
+            subject: subject,
             sessionDate: sessionDate,
             sessionTime: sessionTime,
             duration: parseInt(duration) * 60, // Assuming you want duration in minutes

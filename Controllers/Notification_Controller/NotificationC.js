@@ -12,9 +12,10 @@ export const createNotification = async (payload) => {
 };
 
 
-export const getAllNotifications = async () => {
+export const getAllNotifications = async (userId) => {
   try {
-    const notifications = await Notification.find().populate('user');
+    // Filter notifications by userId
+    const notifications = await Notification.find({ user: userId }).populate('user');
     return notifications;
   } catch (error) {
     throw new Error(`Error fetching notifications: ${error.message}`);

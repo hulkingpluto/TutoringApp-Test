@@ -22,13 +22,18 @@ router.post('/', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
+  const userId = req.query.user; // Get userId from query parameter
   try {
-    const notifications = await getAllNotifications();
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    const notifications = await getAllNotifications(userId);
     res.status(200).json(notifications);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching notifications', error: error.message });
   }
 });
+
 
 
 router.get('/:id', async (req, res) => {

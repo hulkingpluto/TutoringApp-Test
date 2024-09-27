@@ -9,7 +9,7 @@ class AppHeader extends HTMLElement {
           <input class="search" type="text" placeholder="Search" >
   
           <ul ">
-              <li ><a href="#"><img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
+              <li ><a href="notifications.html"><img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
               <li ><a href="#"><img src="./Icons/chat.svg" alt="Chat" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
           </ul>
   
