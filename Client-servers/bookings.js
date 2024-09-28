@@ -116,9 +116,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const responseData = await response.json();
                 alert('Booking created successfully!');
                 console.log('Booking data:', responseData);
-
                 // Optionally, reset the form after submission
                 bookingForm.reset();
+                localStorage.removeItem('bookingTutor');
+                localStorage.removeItem('selectedSubject');
+                localStorage.removeItem('selectedTutor');
+
             } else {
                 // Handle errors
                 const errorData = await response.json();

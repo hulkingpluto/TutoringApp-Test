@@ -1,20 +1,39 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const userId = getUserId(); // Retrieve the current logged-in user's ID from localStorage
     const notificationsContainer = document.querySelector('.notifications-container');
+    const notificationDot = document.querySelector('.notification-dot'); // The red dot element
 
     // Fetch notifications for the logged-in user
     async function fetchNotifications() {
         try {
-            const response = await fetch(`${API_BASE_URL}/notifications?user=${userId}`); // Backend uses this userId to filter
+            const response = await fetch(`${API_BASE_URL}/notifications?user=${userId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch notifications');
             }
             const notifications = await response.json();
+    
+            // If there are no notifications, update the UI accordingly
             if (notifications.length === 0) {
                 notificationsContainer.innerHTML = '<p>No new notifications.</p>';
+                // Clear notifications from localStorage
+                localStorage.removeItem('hasUnreadNotifications');
+                notificationDot.style.display = 'none'; // Hide red dot
             } else {
                 displayNotifications(notifications);
                 console.log(userId);
+    
+                // Check if there are unread notifications
+                const hasUnread = notifications.some(notification => !notification.read);
+    
+                if (hasUnread) {
+                    // Store in localStorage that there are unread notifications
+                    localStorage.setItem('hasUnreadNotifications', 'true');
+                    notificationDot.style.display = 'block'; // Show the red dot
+                } else {
+                    // Remove the unread notifications flag from localStorage
+                    localStorage.removeItem('hasUnreadNotifications');
+                    notificationDot.style.display = 'none'; // Hide the red dot
+                }
             }
         } catch (error) {
             console.error('Error fetching notifications:', error);
@@ -73,13 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!response.ok) {
                 throw new Error('Failed to mark notification as read');
             }
-            // Find the button by data-notification-id and update its appearance
-            const button = document.querySelector(`.mark-read-btn[data-notification-id="${notificationId}"]`);
-            if (button) {
-                button.disabled = true; // Disable the button
-                button.style.backgroundColor = '#ccc'; // Change color to indicate it's read
-                button.textContent = 'Read'; // Change button text
-            }
+            fetchNotifications(); // Refresh notifications after marking as read
         } catch (error) {
             console.error('Error marking notification as read:', error);
         }

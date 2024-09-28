@@ -1,28 +1,31 @@
-
 class AppHeader extends HTMLElement {
-    connectedCallback() {
+  async connectedCallback() {
       this.innerHTML = `
           <div class="header">
-  
-          <img class="logo" src="./Icons/logo.svg" alt="Logo" >
-  
-          <input class="search" type="text" placeholder="Search" >
-  
-          <ul ">
-              <li ><a href="notifications.html"><img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
-              <li ><a href="#"><img src="./Icons/chat.svg" alt="Chat" style="color: white; transition: transform 0.3s; font-family: Arial, sans-serif;"></a></li>
-          </ul>
-  
-          <ul class="account-link">
-              <a href="Profile.html" id="profile-link" >
-                  <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture" >
-                  <span id="profile-name">Default Name</span>
-              </a>
-          </ul>
-      </div>
-          `;
-    }
+              <img class="logo" src="./Icons/logo.svg" alt="Logo" >
+              <input class="search" type="text" placeholder="Search" >
+              <ul>
+                  <li>
+                      <a href="notifications.html">
+                          <div class="notification-bell">
+                              <img src="./Icons/notifications.svg" alt="Notifications" style="color: white; transition: transform 0.3s;">
+                              <span class="notification-dot"></span> <!-- Red dot -->
+                          </div>
+                      </a>
+                  </li>
+                  <li><a href="#"><img src="./Icons/chat.svg" alt="Chat" style="color: white; transition: transform 0.3s;"></a></li>
+              </ul>
+              <ul class="account-link">
+                  <a href="Profile.html" id="profile-link">
+                      <img id="profile-picture" src="./Icons/profile2.jpg" alt="Profile Picture">
+                      <span id="profile-name">Default Name</span>
+                  </a>
+              </ul>
+          </div>
+      `;
   }
+}
+
 
   class AppSidebar extends HTMLElement {
     connectedCallback() {
@@ -71,4 +74,3 @@ class AppHeader extends HTMLElement {
   // Define the new custom element
   customElements.define('app-sidebar', AppSidebar);
   customElements.define("app-header", AppHeader);
-  

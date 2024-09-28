@@ -1,7 +1,4 @@
 // File: Tutors.js
-const API_BASE_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3000/api'
-    : 'https://finalbackend2099.azurewebsites.net/api';
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -91,12 +88,6 @@ async function displayTutors(tutors, token) {
 document.addEventListener('DOMContentLoaded', async function() {
     const token = localStorage.getItem('token');
     const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
-
-    if (!token || !selectedTutor) {
-        window.location.href = './login.html';
-        return;
-    }
-
     // Populate tutor details on the profile page
     document.getElementById('profile-name').textContent = `${selectedTutor.fname} ${selectedTutor.lname}`;
     document.getElementById('profile-subjects').innerHTML = `<strong>Subjects:</strong> ${selectedTutor.subjects.join(', ')}`;
