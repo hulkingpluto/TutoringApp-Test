@@ -50,14 +50,14 @@ class AppHeader extends HTMLElement {
         window.location.href = './login.html';
       });
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const token = localStorage.getItem('token');
-    //     if (!token) {
-    //         window.location.href = './login.html';
-    //     } else {
-    //         document.body.style.display = 'block';
-    //     }
-    // });
+     document.addEventListener('DOMContentLoaded', function() {
+         const token = localStorage.getItem('token');
+         if (!token) {
+             window.location.href = './login.html';
+         } else {
+             document.body.style.display = 'block';
+         }
+     });
   
       // Handle sidebar toggle
       const sidebar = this.querySelector('#sidebar');

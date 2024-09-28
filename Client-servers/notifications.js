@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch notifications for the logged-in user
     async function fetchNotifications() {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications?user=${userId}`); // Backend uses this userId to filter
+            const response = await fetch(`${API_BASE_URL}/notifications?user=${userId}`); // Backend uses this userId to filter
             if (!response.ok) {
                 throw new Error('Failed to fetch notifications');
             }
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Mark a notification as read
     async function markAsRead(notificationId) {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications/read/${notificationId}`, {
+            const response = await fetch(`${API_BASE_URL}/notifications/read/${notificationId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Delete a notification
     async function deleteNotification(notificationId) {
         try {
-            const response = await fetch(`http://localhost:3000/api/notifications/${notificationId}`, {
+            const response = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {

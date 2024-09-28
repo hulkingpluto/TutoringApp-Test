@@ -1,5 +1,7 @@
 // File: Tutors.js
-
+const API_BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000/api'
+    : 'https://finalbackend2099.azurewebsites.net/api';
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -12,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function fetchTutors() {
     const token = localStorage.getItem('token');
     try {
-        const response = await fetch('http://localhost:3000/api/users/', {
+        const response = await fetch(`${API_BASE_URL}/users/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -48,7 +50,7 @@ async function displayTutors(tutors, token) {
 
         // Attempt to fetch the tutor's profile picture
         try {
-            const imageResponse = await fetch(`http://localhost:3000/api/users/${tutor._id}/profile-picture`, {
+            const imageResponse = await fetch(`${API_BASE_URL}/users/${tutor._id}/profile-picture`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -106,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const defaultProfilePicture = './Icons/profile2.jpg';
 
     try {
-        const imageResponse = await fetch(`http://localhost:3000/api/users/${selectedTutor._id}/profile-picture`, {
+        const imageResponse = await fetch(`${API_BASE_URL}/users/${selectedTutor._id}/profile-picture`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },

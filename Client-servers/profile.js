@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch user data and populate profile fields
     try {
-        const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+            const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

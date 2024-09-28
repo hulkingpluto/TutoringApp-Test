@@ -16,7 +16,7 @@ import { authenticateToken} from './tokenmiddleware.js';
 const app = express();
 
 
-const mongoURI = 'mongodb+srv://pravirstudy:l9bCqH0MJzLQOtFl@backenddb.li8va.mongodb.net/?retryWrites=true&w=majority&appName=BackEndDB';
+const mongoURI = 'mongodb://localhost:27017/Testdb';
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,

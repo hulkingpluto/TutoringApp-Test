@@ -1,4 +1,16 @@
 // Fetch the tutors from the database
+    document.getElementById('status').addEventListener('change', function() {
+        const status = this.value;
+        const cancellationReasonContainer = document.getElementById('cancellationReasonContainer');
+        if (status === 'Cancelled') {
+            cancellationReasonContainer.style.display = 'block';
+            document.getElementById('cancellationReason').setAttribute('required', 'true');
+        } else {
+            cancellationReasonContainer.style.display = 'none';
+            document.getElementById('cancellationReason').removeAttribute('required');
+        }
+    });
+
 const fetchTutors = async (url) => {
     try {
         const response = await fetch(url);
@@ -33,7 +45,7 @@ const renderAvailableTutors = (tutors) => {
 
 // Load tutors and set the selected tutor from localStorage
 const loadTutors = async () => {
-    const availableTutors = await fetchTutors('http://localhost:3000/api/users');
+    const availableTutors = await fetchTutors(`${API_BASE_URL}/users`);
     renderAvailableTutors(availableTutors);
 
     // Get the selected tutor from localStorage
@@ -91,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             // Send POST request to the booking API
-            const response = await fetch('http://localhost:3000/api/bookings', {
+            const response = await fetch(`${API_BASE_URL}/bookings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

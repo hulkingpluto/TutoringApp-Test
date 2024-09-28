@@ -1,3 +1,8 @@
+const API_BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000/api'
+    : 'https://finalbackend2099.azurewebsites.net/api';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
@@ -68,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('http://localhost:3000/api/users', {
+                const response = await fetch(`${API_BASE_URL}/users`, {
                     method: 'POST',
                     body: formData,
                 });

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/resources', {
+            const response = await fetch(`${API_BASE_URL}/resources`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append('uploadedBy', userId); // Use the actual user ID
 
         try {
-            const response = await fetch('http://localhost:3000/api/resourcesfile', {
+            const response = await fetch(`${API_BASE_URL}/resourcesfile`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to delete a resource or file
     const deleteResource = async (id, type) => {
-        const url = type === 'resource' ? `http://localhost:3000/api/resources/${id}` : `http://localhost:3000/api/resourcesfile/${id}`;
+        const url = type === 'resource' ? `${API_BASE_URL}/resources/${id}` : `${API_BASE_URL}/resourcesfile/${id}`;
         try {
             const response = await fetch(url, {
                 method: 'DELETE',
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             alert('Resource deleted successfully!');
             // Refresh the list after deletion
-            const resources = await fetchResources('http://localhost:3000/api/resources');
-            const files = await fetchResources('http://localhost:3000/api/resourcesfile');
+            const resources = await fetchResources(`${API_BASE_URL}/resources`);
+            const files = await fetchResources(`${API_BASE_URL}/resourcesfile`);
             renderResources(resources, files);
         } catch (error) {
             console.error('Error deleting resource:', error);
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (file.uploadedBy === userId) {
                 const fileItem = document.createElement('li');
                 const fileLink = document.createElement('a');
-                fileLink.href = `http://localhost:3000/api/resourcesfile/${file._id}`; // Adjust URL as needed for file access
+                fileLink.href = `${API_BASE_URL}/resourcesfile/${file._id}`; // Adjust URL as needed for file access
                 fileLink.textContent = `${file.file.originalName}`;
                 
                 // Create delete button
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     // Fetch resources and files on page load
-    const resources = await fetchResources('http://localhost:3000/api/resources');
-    const files = await fetchResources('http://localhost:3000/api/resourcesfile');
+    const resources = await fetchResources(`${API_BASE_URL}/resources`);
+    const files = await fetchResources(`${API_BASE_URL}/resourcesfile`);
     renderResources(resources, files);
 });
