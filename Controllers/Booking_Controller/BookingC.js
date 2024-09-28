@@ -9,14 +9,14 @@ export const createBooking = async (payload) => {
 
     
     const studentNotification = new Notification({
-    message: `Booking confirmed for ${savedBooking.sessionDate} at ${savedBooking.sessionTime}`,
+    message: `${savedBooking.meetingType} booking confirmed for ${savedBooking.sessionDate} at ${savedBooking.sessionTime} `,
     user: savedBooking.student, 
   });
   await studentNotification.save();
   
   
     const tutorNotification = new Notification({
-    message: `You have a new booking with ${savedBooking.studentName} on ${savedBooking.sessionDate} at ${savedBooking.sessionTime}`,
+    message: `You have a new ${savedBooking.meetingType} booking with ${savedBooking.studentName} on ${savedBooking.sessionDate} at ${savedBooking.sessionTime}`,
     user: savedBooking.tutor, 
   });
   await tutorNotification.save();

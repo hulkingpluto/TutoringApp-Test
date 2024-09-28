@@ -38,7 +38,7 @@ passport.use(
           { expiresIn: '100h' }
         );
         
-        return done(null, { user, token });
+        return done(null, { user, token,role: user.role });
       } catch (error) {
         console.error('Error during Google OAuth:', error);
         return done(error, null);

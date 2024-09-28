@@ -11,7 +11,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error('Failed to fetch notifications');
             }
             const notifications = await response.json();
-    
+            
+            // Store fetched notifications in localStorage
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+
             // If there are no notifications, update the UI accordingly
             if (notifications.length === 0) {
                 notificationsContainer.innerHTML = '<p>No new notifications.</p>';
@@ -92,6 +95,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!response.ok) {
                 throw new Error('Failed to mark notification as read');
             }
+            
+            // Update localStorage notifications data
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            const updatedNotifications = notifications.map(notification =>
+                notification._id === notificationId ? { ...notification, read: true } : notification
+            );
+            localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+
             fetchNotifications(); // Refresh notifications after marking as read
         } catch (error) {
             console.error('Error marking notification as read:', error);
@@ -107,6 +118,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!response.ok) {
                 throw new Error('Failed to delete notification');
             }
+            
+            // Update localStorage notifications data
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            const updatedNotifications = notifications.filter(notification => notification._id !== notificationId);
+            localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+
             fetchNotifications(); // Refresh the notifications list
         } catch (error) {
             console.error('Error deleting notification:', error);

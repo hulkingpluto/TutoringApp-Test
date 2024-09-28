@@ -17,9 +17,13 @@ router.get(
     try {
       const token = req.user.token;
       const userId = req.user.user._id;
-
-      
-      res.redirect(`/dashboard.html?token=${token}&userId=${userId}`)
+      const role =req.user.role;
+      if(role === 'student'){
+      res.redirect(`/dashboard.html?token=${token}&userId=${userId}&role=${role}`)
+      }
+      else{
+        res.redirect(`./views/tutor_dashboard.html?token=${token}&userId=${userId}&role=${role}`)
+      }
     } catch (error) {
       console.error("Error during Google OAuth callback:", error);
       res.redirect("/");

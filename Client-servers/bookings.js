@@ -1,16 +1,17 @@
-// Fetch the tutors from the database
-    document.getElementById('status').addEventListener('change', function() {
-        const status = this.value;
-        const cancellationReasonContainer = document.getElementById('cancellationReasonContainer');
-        if (status === 'Cancelled') {
-            cancellationReasonContainer.style.display = 'block';
-            document.getElementById('cancellationReason').setAttribute('required', 'true');
-        } else {
-            cancellationReasonContainer.style.display = 'none';
-            document.getElementById('cancellationReason').removeAttribute('required');
-        }
-    });
+// Handle cancellation reason visibility based on status
+document.getElementById('status').addEventListener('change', function() {
+    const status = this.value;
+    const cancellationReasonContainer = document.getElementById('cancellationReasonContainer');
+    if (status === 'Cancelled') {
+        cancellationReasonContainer.style.display = 'block';
+        document.getElementById('cancellationReason').setAttribute('required', 'true');
+    } else {
+        cancellationReasonContainer.style.display = 'none';
+        document.getElementById('cancellationReason').removeAttribute('required');
+    }
+});
 
+// Function to fetch tutors from the database
 const fetchTutors = async (url) => {
     try {
         const response = await fetch(url);
@@ -20,15 +21,15 @@ const fetchTutors = async (url) => {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error(`Error fetching from ${url}:, error`);
+        console.error(`Error fetching from ${url}:`, error);
         return [];
     }
 };
 
-// Render the available tutors into the select dropdown
+// Render available tutors into the select dropdown
 const renderAvailableTutors = (tutors) => {
     const tutorsSelect = document.getElementById('tutor');
-    tutorsSelect.innerHTML = ''; // Clear the previous options
+    tutorsSelect.innerHTML = ''; // Clear previous options
 
     const placeholderOption = document.createElement('option');
     placeholderOption.textContent = 'Select a Tutor';
@@ -51,12 +52,8 @@ const loadTutors = async () => {
     // Get the selected tutor from localStorage
     const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
 
-    // Check if a tutor was previously selected
     if (selectedTutor) {
-        // Populate the tutor select element
         const tutorSelect = document.getElementById('tutor');
-        
-        // Iterate through the options to find the one that matches the selected tutor's ID
         for (let option of tutorSelect.options) {
             if (option.value === selectedTutor._id) {
                 option.selected = true; // Set the correct option as selected
@@ -66,16 +63,15 @@ const loadTutors = async () => {
 
         // Populate the subject field with the selected tutor's subject
         const subjectInput = document.getElementById('subject');
-        subjectInput.value = selectedTutor.subjects[0]; // Assuming you're using the first subject
+        subjectInput.value = selectedTutor.subjects[0]; // Assuming first subject
     }
 };
 
-// Booking a schedule
+// Handle form submission for booking
 document.addEventListener('DOMContentLoaded', async () => {
     // Load tutors on page load
     await loadTutors();
 
-    // Handle form submission
     const bookingForm = document.getElementById('bookingForm');
 
     bookingForm.addEventListener('submit', async function (event) {
@@ -89,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const sessionTime = document.getElementById('sessionTime').value;
         const duration = document.getElementById('duration').value;
         const status = document.getElementById('status').value;
-        const meetingtype = document.getElementById('status').value;
+        const meetingType = document.getElementById('meetingtype').value;
 
         // Prepare booking data to match the format expected by the database
         const bookingData = {
@@ -98,9 +94,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             subject: subject,
             sessionDate: sessionDate,
             sessionTime: sessionTime,
-            duration: parseInt(duration) * 60, // Assuming you want duration in minutes
+            duration: parseInt(duration) * 60, // Convert duration to seconds
             status: status,
-            meetingtype:meetingtype
+            meetingType: meetingType
         };
 
         try {
@@ -114,18 +110,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (response.ok) {
-                // Handle success
                 const responseData = await response.json();
                 alert('Booking created successfully!');
                 console.log('Booking data:', responseData);
-                // Optionally, reset the form after submission
                 bookingForm.reset();
                 localStorage.removeItem('bookingTutor');
                 localStorage.removeItem('selectedSubject');
                 localStorage.removeItem('selectedTutor');
-
             } else {
-                // Handle errors
                 const errorData = await response.json();
                 alert('Error creating booking: ' + errorData.message);
             }

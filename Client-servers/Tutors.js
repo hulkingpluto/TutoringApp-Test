@@ -66,6 +66,7 @@ async function displayTutors(tutors, token) {
             <img src="${profilePicture}" alt="${tutor.fname} ${tutor.lname}" class="tutor-image">
             <div class="tutor-details">
                 <h3>${tutor.fname} ${tutor.lname}</h3>
+                <p>${tutor.email}</p>
                 <p><strong>Subjects:</strong> ${tutor.subjects.join(', ')}</p>
                 <p><strong>Qualifications:</strong> ${tutor.qualifications.join(', ')}</p>
             </div>
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const selectedTutor = JSON.parse(localStorage.getItem('selectedTutor'));
     // Populate tutor details on the profile page
     document.getElementById('profile-name').textContent = `${selectedTutor.fname} ${selectedTutor.lname}`;
+     document.getElementById('profile-email').innerHTML = `${selectedTutor.email}`;
     document.getElementById('profile-subjects').innerHTML = `<strong>Subjects:</strong> ${selectedTutor.subjects.join(', ')}`;
     document.getElementById('profile-qualifications').innerHTML = `<strong>Qualifications:</strong> ${selectedTutor.qualifications.join(', ')}`;
     document.getElementById('profile-about').textContent = selectedTutor.about || 'No details available.';
