@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const sessionTime = document.getElementById('sessionTime').value;
         const duration = document.getElementById('duration').value;
         const status = document.getElementById('status').value;
+        const meetingtype = document.getElementById('status').value;
 
         // Prepare booking data to match the format expected by the database
         const bookingData = {
@@ -98,7 +99,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             sessionDate: sessionDate,
             sessionTime: sessionTime,
             duration: parseInt(duration) * 60, // Assuming you want duration in minutes
-            status: status
+            status: status,
+            meetingtype:meetingtype
         };
 
         try {
