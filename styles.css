@@ -198,8 +198,10 @@ body {
     transform: rotate(180deg);
 }
 
+
 .main-content {
     margin-top: 90px;
+    margin-left: 250px;
     padding: 20px;
     flex-grow: 1;
     background-color: #f5f5f5;
